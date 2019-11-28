@@ -4,6 +4,15 @@ import com.tema.input.Battlefield;
 import com.tema.players.*;
 
 public class FightMode implements PlayerVisitor{
+    private static FightMode instance = null;
+
+    private FightMode(){}
+    public static FightMode getInstance() {
+        if(instance == null) {
+            instance = new FightMode();
+        }
+        return instance;
+    }
 
     public void visit(Rogue rogue){
         Visitable opponent = GetOpponent(rogue);

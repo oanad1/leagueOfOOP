@@ -46,6 +46,12 @@ public final class Battlefield {
         battlefieldMat[rowPos][columnPos].AddOccupant(player);
     }
 
+    public Lot getLot(Player player){
+        int rowPos = player.getrowPos();
+        int columnPos = player.getcolumnPos();
+        return battlefieldMat[rowPos][columnPos];
+    }
+
     public Lot[][] getBattlefieldMat() {
         return battlefieldMat;
     }
