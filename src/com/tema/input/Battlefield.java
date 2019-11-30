@@ -70,6 +70,7 @@ public final class Battlefield {
 
         public Lot(char landType){
             this.landType = landType;
+            occupants = new ArrayList<>();
         }
 
         public void RemoveOccupant(Player player){
