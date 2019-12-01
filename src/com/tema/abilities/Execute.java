@@ -27,18 +27,15 @@ public class Execute implements PlayerVisitor {
             levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT;
         }
 
-     float HPLimit = KnightConstants.EXECUTE_INSTANT_PERCENT* (PyromancerConstants.BASE_HP +
-             pyromancer.getLevel()*PyromancerConstants.LEVEL_HP);
-     HPLimit += levelProcent;
-     Math.round(HPLimit);
+     int HPLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT* (PyromancerConstants.BASE_HP +
+             pyromancer.getLevel()*PyromancerConstants.LEVEL_HP) + levelProcent);
 
      if(pyromancer.getCurrentHP() < HPLimit){
          pyromancer.setRoundDamage(pyromancer.getCurrentHP());
          return;
      }
 
-        float damage = CalculateRawDamage(pyromancer) * KnightConstants.EXECUTE_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(pyromancer) * KnightConstants.EXECUTE_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
@@ -51,18 +48,15 @@ public class Execute implements PlayerVisitor {
             levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT;
         }
 
-        float HPLimit = KnightConstants.EXECUTE_INSTANT_PERCENT* (RogueConstants.BASE_HP +
-                rogue.getLevel()*RogueConstants.LEVEL_HP);
-        HPLimit += levelProcent;
-        Math.round(HPLimit);
+        int HPLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT* (RogueConstants.BASE_HP +
+                rogue.getLevel()*RogueConstants.LEVEL_HP) + levelProcent);
 
         if(rogue.getCurrentHP() < HPLimit){
             rogue.setRoundDamage(rogue.getCurrentHP());
             return;
         }
 
-        float damage = CalculateRawDamage(rogue) * KnightConstants.EXECUTE_MOD_R;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(rogue) * KnightConstants.EXECUTE_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
@@ -75,10 +69,8 @@ public class Execute implements PlayerVisitor {
             levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT;
         }
 
-        float HPLimit = KnightConstants.EXECUTE_INSTANT_PERCENT* (WizardConstants.BASE_HP +
-                wizard.getLevel()*WizardConstants.LEVEL_HP);
-        HPLimit += levelProcent;
-        Math.round(HPLimit);
+        int HPLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT* (WizardConstants.BASE_HP +
+                wizard.getLevel()*WizardConstants.LEVEL_HP) + levelProcent);
 
         if(wizard.getCurrentHP() < HPLimit){
             wizard.setUnmodifiedDamage(wizard.getCurrentHP());
@@ -86,11 +78,10 @@ public class Execute implements PlayerVisitor {
             return;
         }
 
-        float damage = CalculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(Math.round(damage));
+        float unmodDamage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
-        damage *= KnightConstants.EXECUTE_MOD_W;
-        Math.round(damage);
+        int damage = Math.round(unmodDamage * KnightConstants.EXECUTE_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
@@ -103,18 +94,15 @@ public class Execute implements PlayerVisitor {
             levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT;
         }
 
-        float HPLimit = KnightConstants.EXECUTE_INSTANT_PERCENT* (KnightConstants.BASE_HP +
-                knight.getLevel()*KnightConstants.LEVEL_HP);
-        HPLimit += levelProcent;
-        Math.round(HPLimit);
+        int HPLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT* (KnightConstants.BASE_HP +
+                knight.getLevel()*KnightConstants.LEVEL_HP) + levelProcent);
 
         if(knight.getCurrentHP() < HPLimit){
             knight.setRoundDamage(knight.getCurrentHP());
             return;
         }
 
-        float damage = CalculateRawDamage(knight) * KnightConstants.EXECUTE_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(knight) * KnightConstants.EXECUTE_MOD_P);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }

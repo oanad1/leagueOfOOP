@@ -17,32 +17,28 @@ public class Ignite implements PlayerVisitor {
     }
 
     public void visit(Pyromancer pyromancer) {
-        float damage = CalculateRawDamage(pyromancer) * PyromancerConstants.IGNITE_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(pyromancer) * PyromancerConstants.IGNITE_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
     public void visit(Rogue rogue) {
-        float damage = CalculateRawDamage(rogue) * PyromancerConstants.IGNITE_MOD_R;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(rogue) * PyromancerConstants.IGNITE_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
 
     public void visit(Wizard wizard) {
-        float damage = CalculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(Math.round(damage));
+        float unmodDamage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
-        damage *= PyromancerConstants.IGNITE_MOD_W;
-        Math.round(damage);
+        int damage = Math.round(unmodDamage * PyromancerConstants.IGNITE_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
 
     public void visit(Knight knight) {
-        float damage = CalculateRawDamage(knight) * PyromancerConstants.IGNITE_MOD_K;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(knight) * PyromancerConstants.IGNITE_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }

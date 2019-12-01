@@ -19,35 +19,31 @@ public class Slam implements PlayerVisitor {
     }
 
     public void visit(Pyromancer pyromancer) {
-        float damage = CalculateRawDamage(pyromancer) * KnightConstants.SLAM_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(pyromancer) * KnightConstants.SLAM_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
         pyromancer.setImmobilized(1);
     }
 
     public void visit(Rogue rogue) {
-        float damage = CalculateRawDamage(rogue) * KnightConstants.SLAM_MOD_R;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(rogue) * KnightConstants.SLAM_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
         rogue.setImmobilized(1);
     }
 
     public void visit(Wizard wizard) {
-        float damage = CalculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(Math.round(damage));
+        float unmodDamage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
-        damage *= KnightConstants.SLAM_MOD_W;
-        Math.round(damage);
+        int damage = Math.round(unmodDamage * KnightConstants.SLAM_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
         wizard.setImmobilized(1);
     }
 
     public void visit(Knight knight) {
-        float damage = CalculateRawDamage(knight) * KnightConstants.SLAM_MOD_K;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(knight) * KnightConstants.SLAM_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
         knight.setImmobilized(1);

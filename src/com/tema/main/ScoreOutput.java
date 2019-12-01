@@ -21,7 +21,7 @@ public class ScoreOutput implements PlayerVisitor {
         if(player.getLevel() == -1) {
             fileWriter.write("dead\n");
         } else {
-            fileWriter.write(player.getLevel() + " " + player.getCurrentHP() + " " + player.getCurrentXP() + " " +
+            fileWriter.write(player.getLevel() + " " + player.getCurrentXP() + " " + player.getCurrentHP() + " " +
                     player.getrowPos() + " " + player.getcolumnPos() + '\n');
         }
     }

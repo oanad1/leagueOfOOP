@@ -19,32 +19,28 @@ public class Backstab implements PlayerVisitor {
     }
 
     public void visit(Pyromancer pyromancer) {
-        float damage = CalculateRawDamage(pyromancer) * RogueConstants.BACKSTAB_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(pyromancer) * RogueConstants.BACKSTAB_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
     public void visit(Rogue rogue) {
-        float damage = CalculateRawDamage(rogue) * RogueConstants.BACKSTAB_MOD_R;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(rogue) * RogueConstants.BACKSTAB_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
 
     public void visit(Wizard wizard) {
-        float damage = CalculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(Math.round(damage));
+        int damage = Math.round(CalculateRawDamage(wizard) * RogueConstants.BACKSTAB_MOD_W);
+        wizard.setUnmodifiedDamage(damage);
 
-        damage *= RogueConstants.BACKSTAB_MOD_W;
-        Math.round(damage);
+        damage = Math.round(damage * RogueConstants.BACKSTAB_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
 
     public void visit(Knight knight) {
-        float damage = CalculateRawDamage(knight) * RogueConstants.BACKSTAB_MOD_K;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(knight) * RogueConstants.BACKSTAB_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }

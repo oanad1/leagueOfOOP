@@ -20,15 +20,13 @@ public class Deflect implements PlayerVisitor {
     }
 
     public void visit(Pyromancer pyromancer) {
-        float damage = CalculateRawDamage(pyromancer) * WizardConstants.DEFLECT_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(pyromancer) * WizardConstants.DEFLECT_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
     public void visit(Rogue rogue) {
-        float damage = CalculateRawDamage(rogue) * WizardConstants.DEFLECT_MOD_R;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(rogue) * WizardConstants.DEFLECT_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
@@ -38,8 +36,7 @@ public class Deflect implements PlayerVisitor {
     }
 
     public void visit(Knight knight) {
-        float damage = CalculateRawDamage(knight) * WizardConstants.DEFLECT_MOD_K;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(knight) * WizardConstants.DEFLECT_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }

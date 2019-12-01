@@ -18,32 +18,28 @@ public class Paralysis implements PlayerVisitor {
     }
 
     public void visit(Pyromancer pyromancer) {
-        float damage = CalculateRawDamage(pyromancer) * RogueConstants.PARALYSIS_MOD_P;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(pyromancer) * RogueConstants.PARALYSIS_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
     public void visit(Rogue rogue) {
-        float damage = CalculateRawDamage(rogue) * RogueConstants.PARALYSIS_MOD_R;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(rogue) * RogueConstants.PARALYSIS_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
 
     public void visit(Wizard wizard) {
-        float damage = CalculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(Math.round(damage));
+        float unmodDamage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
-        damage *= RogueConstants.PARALYSIS_MOD_W;
-        Math.round(damage);
+        int damage = Math.round(unmodDamage * RogueConstants.PARALYSIS_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
 
     public void visit(Knight knight) {
-        float damage = CalculateRawDamage(knight) * RogueConstants.PARALYSIS_MOD_K;
-        Math.round(damage);
+        int damage = Math.round(CalculateRawDamage(knight) * RogueConstants.PARALYSIS_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }

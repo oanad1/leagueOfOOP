@@ -15,11 +15,11 @@ public final class Main {
         InputReader inputReader = new InputReader();
         GameInfo gameInfo = inputReader.InputLoad(args[0]);
 
-        GameSystem gameSystem = new GameSystem();
-        gameSystem.playGame(gameInfo);
-
         FileWriter fileWriter = new FileWriter(args[1]);
         ScoreOutput scoreOutput = new ScoreOutput(fileWriter);
+
+        GameSystem gameSystem = new GameSystem();
+        gameSystem.playGame(gameInfo,scoreOutput,fileWriter);
 
         for(Player player: gameInfo.getPlayers()){
             player.accept(scoreOutput);

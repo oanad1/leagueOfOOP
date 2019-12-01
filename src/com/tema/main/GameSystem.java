@@ -5,22 +5,31 @@ import com.tema.input.Battlefield;
 import com.tema.input.GameInfo;
 import com.tema.players.Player;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GameSystem {
 
-    public void playGame(GameInfo gameInfo){
+    public void playGame(GameInfo gameInfo, ScoreOutput scoreOutput, FileWriter fileWriter){
         for(int i=0; i < gameInfo.getNrRounds(); i++){
             String roundMoves = gameInfo.getMoves().get(i);
             FightMode fightMode = FightMode.getInstance();
             fightMode.setRoundNr(i);
-            playRound(gameInfo.getPlayers(),roundMoves);
+            try {
+                fileWriter.write("ROUND " + i + "\n\n");
+                playRound(gameInfo.getPlayers(),roundMoves, scoreOutput);
+                fileWriter.write("ROUND END "+ "\n\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void playRound(ArrayList<Player> players, String moves){
+    public void playRound(ArrayList<Player> players, String moves,ScoreOutput scoreOutput){
         for(Player player: players){
             if(player.isAlive()) {
+                player.setRoundDamage(0);
                 PlayerAction.Move(player, moves.charAt(player.getId()));
             }
         }
@@ -52,6 +61,7 @@ public class GameSystem {
 
         for(Player player: players) {
                 PlayerAction.CheckDeath(player);
+                player.accept(scoreOutput);
         }
     }
 }
