@@ -1,12 +1,15 @@
 package com.tema.abilities;
 
-import com.tema.players.Knight;
-import com.tema.players.Pyromancer;
-import com.tema.players.Rogue;
-import com.tema.players.Wizard;
+import com.tema.constants.KnightConstants;
+import com.tema.constants.PyromancerConstants;
+import com.tema.constants.RogueConstants;
+import com.tema.constants.WizardConstants;
+import com.tema.input.Battlefield;
+import com.tema.players.*;
 
 public class Deflect implements PlayerVisitor {
     private static Deflect instance = null;
+    private Battlefield battlefield = Battlefield.getInstance();
 
     private Deflect(){}
     public static Deflect getInstance() {
@@ -17,18 +20,43 @@ public class Deflect implements PlayerVisitor {
     }
 
     public void visit(Pyromancer pyromancer) {
-
+        float damage = CalculateRawDamage(pyromancer) * WizardConstants.DEFLECT_MOD_P;
+        Math.round(damage);
+        damage += pyromancer.getRoundDamage();
+        pyromancer.setRoundDamage(damage);
     }
 
     public void visit(Rogue rogue) {
-
+        float damage = CalculateRawDamage(rogue) * WizardConstants.DEFLECT_MOD_R;
+        Math.round(damage);
+        damage += rogue.getRoundDamage();
+        rogue.setRoundDamage(damage);
     }
 
     public void visit(Wizard wizard) {
-
+        return;
     }
 
     public void visit(Knight knight) {
+        float damage = CalculateRawDamage(knight) * WizardConstants.DEFLECT_MOD_K;
+        Math.round(damage);
+        damage += knight.getRoundDamage();
+        knight.setRoundDamage(damage);
+    }
 
+    public float CalculateRawDamage(Player victim){
+        Wizard assailant = (Wizard) battlefield.GetOpponent(victim);
+
+        float percent = WizardConstants.DEFLECT_BASE_PROCENT +          //TODO: typo in procent
+                WizardConstants.DEFLECT_LEVEL_PROCENT *assailant.getLevel();
+        if(percent > WizardConstants.DEFLECT_MAX_PROCENT) {
+            percent = WizardConstants.DEFLECT_MAX_PROCENT;
+        }
+        float damage = percent * assailant.getUnmodifiedDamage();
+
+        if(battlefield.getLot(assailant).getLandType() == WizardConstants.LAND_TYPE){
+            damage *= WizardConstants.LAND_TYPE_BONUS;
+        }
+        return damage;
     }
 }

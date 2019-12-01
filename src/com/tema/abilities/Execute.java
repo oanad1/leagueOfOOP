@@ -88,7 +88,10 @@ public class Execute implements PlayerVisitor {
             return;
         }
 
-        float damage = CalculateRawDamage(wizard) * KnightConstants.EXECUTE_MOD_W;
+        float damage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(damage));
+
+        damage *= KnightConstants.EXECUTE_MOD_W;
         Math.round(damage);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);

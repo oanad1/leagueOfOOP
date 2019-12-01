@@ -30,7 +30,10 @@ public class Fireblast implements PlayerVisitor {
     }
 
     public void visit(Wizard wizard) {
-        float damage = CalculateRawDamage(wizard) * PyromancerConstants.FIREBLAST_MOD_W;
+        float damage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(damage));
+
+        damage *= PyromancerConstants.FIREBLAST_MOD_W;
         Math.round(damage);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);

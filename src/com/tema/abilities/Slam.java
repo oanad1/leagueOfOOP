@@ -35,7 +35,10 @@ public class Slam implements PlayerVisitor {
     }
 
     public void visit(Wizard wizard) {
-        float damage = CalculateRawDamage(wizard) * KnightConstants.SLAM_MOD_W;
+        float damage = CalculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(Math.round(damage));
+
+        damage *= KnightConstants.SLAM_MOD_W;
         Math.round(damage);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
