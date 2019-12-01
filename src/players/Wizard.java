@@ -11,6 +11,7 @@ public class Wizard extends Player implements Visitable {
     public Wizard(int rowPos, int columnPos, int id) {
         super(rowPos, columnPos, id);
         this.setCurrentHP(WizardConstants.BASE_HP);
+        this.setPriority(false);
     }
 
     public void accept(PlayerVisitor visitor) {

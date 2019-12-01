@@ -14,9 +14,6 @@ public class PlayerAction {
 
         if(player.getImmobilized()!= 0) {
             int imRounds = player.getImmobilized()-1;
-            if(imRounds == 0) {
-                player.setOvertimeDamage(0);
-            }
             player.setImmobilized(imRounds);
             return;
         }
@@ -50,19 +47,20 @@ public class PlayerAction {
     }
 
     public static void SufferDamage(Player player){
-        player.setCurrentHP((int) (player.getCurrentHP() - player.getRoundDamage()));
-        if(player.getCurrentHP() <= 0){
-            Player opponent = battlefield.GetOpponent(player);
-            opponent.LevelUp(player.getLevel());
-        }
+
+        player.setCurrentHP(player.getCurrentHP() - player.getRoundDamage());
     }
 
     public static void CheckDeath(Player player){
         if(player.getCurrentHP() <=0 && player.getLevel() > -1){
+            Battlefield.Lot lot = battlefield.getLot(player);
 
-            Player opponent = battlefield.GetOpponent(player);
-            opponent.LevelUp(player.getLevel());
-            opponent.resetHP();
+            if(lot.getOccupants().size() > 1 ) {
+                Player opponent = battlefield.GetOpponent(player);
+                opponent.LevelUp(player.getLevel());
+            }
+
+          //  opponent.resetHP();
 
             player.setLevel(-1);
             battlefield.RemovePlayer(player);

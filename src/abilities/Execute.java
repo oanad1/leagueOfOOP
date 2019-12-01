@@ -102,7 +102,7 @@ public class Execute implements PlayerVisitor {
             return;
         }
 
-        int damage = Math.round(CalculateRawDamage(knight) * KnightConstants.EXECUTE_MOD_P);
+        int damage = Math.round(CalculateRawDamage(knight));
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }

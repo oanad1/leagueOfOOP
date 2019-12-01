@@ -24,7 +24,7 @@ public class FightMode implements PlayerVisitor{
         this.roundNr = roundNr;
     }
 
-    public void visit(Rogue rogue){
+    public void visit(Rogue rogue){  //ordinea conteaza
         Visitable opponent = battlefield.GetOpponent(rogue);
         opponent.accept(Backstab.getInstance());
         opponent.accept(Paralysis.getInstance());

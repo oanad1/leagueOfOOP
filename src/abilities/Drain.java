@@ -54,17 +54,19 @@ public class Drain implements PlayerVisitor {
     }
 
     public void visit(Wizard wizard) {
-        float procent = CalculateRawDamage(wizard) * WizardConstants.DRAIN_MOD_W;
-        int damage;
+        float procent = CalculateRawDamage(wizard);
+        float unmodDamage;
         float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP + WizardConstants.LEVEL_HP *
                 wizard.getLevel());
 
         if(oppMax < wizard.getCurrentHP()){
-            damage = Math.round(procent *  oppMax);
+            unmodDamage = procent *  oppMax;
         } else {
-            damage = Math.round(procent *  wizard.getCurrentHP());
+            unmodDamage = procent *  wizard.getCurrentHP();
         }
 
+        wizard.setUnmodifiedDamage(Math.round(unmodDamage));
+        int damage = Math.round(unmodDamage * WizardConstants.DRAIN_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }

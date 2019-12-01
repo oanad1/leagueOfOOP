@@ -10,8 +10,10 @@ public abstract class Player implements Visitable{
     private int currentHP;
     private int currentXP;
     private int level;
-    private float roundDamage;
+    private int roundDamage;
+    private int overtimeRounds = 0;
     private int overtimeDamage;
+    private boolean priority;
 
     public Player(int rowPos, int columnPos, int id){
         this.rowPos = rowPos;
@@ -20,6 +22,7 @@ public abstract class Player implements Visitable{
         this.currentXP = 0;
         this.level = 0;
         this.roundDamage = 0;
+        this.priority = true;
     }
     public abstract void accept(PlayerVisitor visitor);
 
@@ -41,12 +44,27 @@ public abstract class Player implements Visitable{
         return true;
     }
 
+    public int getOvertimeRounds() {
+        return overtimeRounds;
+    }
 
-    public float getRoundDamage() {
+    public void setOvertimeRounds(int overtimeRounds) {
+        this.overtimeRounds = overtimeRounds;
+    }
+
+    public boolean getPriority() {
+        return priority;
+    }
+
+    public void setPriority(boolean priority) {
+        this.priority = priority;
+    }
+
+    public int getRoundDamage() {
         return roundDamage;
     }
 
-    public void setRoundDamage(float roundDamage) {
+    public void setRoundDamage(int roundDamage) {
         this.roundDamage = roundDamage;
     }
 

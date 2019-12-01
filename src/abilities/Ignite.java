@@ -20,27 +20,39 @@ public class Ignite implements PlayerVisitor {
         int damage = Math.round(CalculateRawDamage(pyromancer) * PyromancerConstants.IGNITE_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
+
+        damage = Math.round(CalculateOvertime(pyromancer) * PyromancerConstants.IGNITE_MOD_P);
+        pyromancer.setOvertimeDamage(damage);
     }
 
     public void visit(Rogue rogue) {
         int damage = Math.round(CalculateRawDamage(rogue) * PyromancerConstants.IGNITE_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
+
+        damage = Math.round(CalculateOvertime(rogue) * PyromancerConstants.IGNITE_MOD_R);
+        rogue.setOvertimeDamage(damage);
     }
 
     public void visit(Wizard wizard) {
         float unmodDamage = CalculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(Math.round(unmodDamage));
+        wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
 
         int damage = Math.round(unmodDamage * PyromancerConstants.IGNITE_MOD_W);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
+
+        damage = Math.round(CalculateOvertime(wizard) * PyromancerConstants.IGNITE_MOD_W);
+        wizard.setOvertimeDamage(damage);
     }
 
     public void visit(Knight knight) {
         int damage = Math.round(CalculateRawDamage(knight) * PyromancerConstants.IGNITE_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
+
+        damage = Math.round(CalculateOvertime(knight) * PyromancerConstants.IGNITE_MOD_K);
+        knight.setOvertimeDamage(damage);
     }
 
     public float CalculateRawDamage(Player victim){
@@ -48,13 +60,32 @@ public class Ignite implements PlayerVisitor {
         FightMode fightMode = FightMode.getInstance();
         float damage;
 
-        if(fightMode.getRoundNr() % 3 == 0) {
+        //if(fightMode.getRoundNr() % 3 == 0) {
             damage = PyromancerConstants.IGNITE_BASE_DAMAGE +
                     PyromancerConstants.IGNITE_LEVEL_DAMAGE *assailant.getLevel();
-        } else {
+       /* } else {
             damage = PyromancerConstants.IGNITE_SMALL_BASE_DAMAGE +
                     PyromancerConstants.IGNITE_SMALL_LEVEL_DAMAGE *assailant.getLevel();
+        } */
+
+        if(battlefield.getLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE){
+            damage *= PyromancerConstants.LAND_TYPE_BONUS;
         }
+        return damage;
+    }
+
+    public float CalculateOvertime(Player victim){
+        Player assailant = battlefield.GetOpponent(victim);
+        FightMode fightMode = FightMode.getInstance();
+        float damage;
+
+        //if(fightMode.getRoundNr() % 3 == 0) {
+        damage = PyromancerConstants.IGNITE_SMALL_BASE_DAMAGE +
+                PyromancerConstants.IGNITE_SMALL_LEVEL_DAMAGE *assailant.getLevel();
+       /* } else {
+            damage = PyromancerConstants.IGNITE_SMALL_BASE_DAMAGE +
+                    PyromancerConstants.IGNITE_SMALL_LEVEL_DAMAGE *assailant.getLevel();
+        } */
 
         if(battlefield.getLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE){
             damage *= PyromancerConstants.LAND_TYPE_BONUS;
