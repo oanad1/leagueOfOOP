@@ -8,6 +8,7 @@ public class KnightConstants {
     public static final int EXECUTE_LEVEL_DAMAGE = 30;
     public static final float EXECUTE_INSTANT_PERCENT = 0.2f;
     public static final float EXECUTE_INSTANT_LEVEL_PERCENT = 0.01f;
+    public static final float EXECUTE_INSTANT_LEVEL_MAX_PERCENT = 0.4f;
     public static final float EXECUTE_MOD_R = 1.15f;
     public static final float EXECUTE_MOD_K = 0f;
     public static final float EXECUTE_MOD_P = 1.1f;
@@ -22,4 +23,6 @@ public class KnightConstants {
 
     public static final char LAND_TYPE = 'L';
     public static final float LAND_TYPE_BONUS = 1.15f;
+
+    public static final int DEAD = -1;
 }

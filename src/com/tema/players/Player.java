@@ -6,7 +6,7 @@ public class Player implements Visitable{
     private int rowPos;
     private int columnPos;
     private int id;
-    private boolean immobilized = false;
+    private int immobilized = 0;
     private int currentHP;
     private int currentXP;
     private int level;
@@ -82,11 +82,11 @@ public class Player implements Visitable{
         this.id = id;
     }
 
-    public boolean isImmobilized() {
+    public int getImmobilized() {
         return immobilized;
     }
 
-    public void setImmobilized(boolean imobilizedState) {
-        this.immobilized = imobilizedState;
+    public void setImmobilized(int immobilized) {
+        this.immobilized = immobilized;
     }
 }

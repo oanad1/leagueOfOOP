@@ -22,4 +22,7 @@ public final class PyromancerConstants {
 
     public static final char LAND_TYPE = 'V';
     public static final float LAND_TYPE_BONUS = 1.25f;
+
+    public static final int DEAD = -1;
+
 }

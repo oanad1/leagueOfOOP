@@ -30,4 +30,6 @@ public class RogueConstants {
     public static final char LAND_TYPE = 'W';
     public static final float LAND_TYPE_BONUS = 1.15f;
 
+    public static final int DEAD = -1;
+
 }

@@ -22,4 +22,5 @@ public class WizardConstants {
     public static final char LAND_TYPE = 'D';
     public static final float LAND_TYPE_BONUS = 1.1f;
 
+    public static final int DEAD = -1;
 }
