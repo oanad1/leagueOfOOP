@@ -6,11 +6,11 @@ import players.Rogue;
 import players.Wizard;
 
 public interface PlayerVisitor {
-    public void visit(Pyromancer pyromancer);
+    void visit(Pyromancer pyromancer);
 
-    public void visit(Rogue rogue);
+    void visit(Rogue rogue);
 
-    public void visit(Wizard wizard);
+    void visit(Wizard wizard);
 
-    public void visit(Knight knight);
+    void visit(Knight knight);
 }

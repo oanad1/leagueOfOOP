@@ -1,49 +1,44 @@
 package abilities;
 
 import input.Battlefield;
-import players.*;
+import players.Visitable;
+import players.Pyromancer;
+import players.Rogue;
+import players.Wizard;
+import players.Knight;
 
-public class FightMode implements PlayerVisitor{
+public final class FightMode implements PlayerVisitor {
     private static FightMode instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
-    private int roundNr;
 
-    private FightMode(){}
+    private FightMode() { }
     public static FightMode getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new FightMode();
         }
         return instance;
     }
 
-    public int getRoundNr() {
-        return roundNr;
-    }
-
-    public void setRoundNr(int roundNr) {
-        this.roundNr = roundNr;
-    }
-
-    public void visit(Rogue rogue){  //ordinea conteaza
-        Visitable opponent = battlefield.GetOpponent(rogue);
+    public void visit(final Rogue rogue) {  //ordinea conteaza
+        Visitable opponent = battlefield.getOpponent(rogue);
         opponent.accept(Backstab.getInstance());
         opponent.accept(Paralysis.getInstance());
     }
 
-    public void visit(Pyromancer pyromancer){
-        Visitable opponent = battlefield.GetOpponent(pyromancer);
+    public void visit(final Pyromancer pyromancer) {
+        Visitable opponent = battlefield.getOpponent(pyromancer);
         opponent.accept(Fireblast.getInstance());
         opponent.accept(Ignite.getInstance());
     }
 
-    public void visit(Wizard wizard){
-        Visitable opponent = battlefield.GetOpponent(wizard);
+    public void visit(final Wizard wizard) {
+        Visitable opponent = battlefield.getOpponent(wizard);
         opponent.accept(Drain.getInstance());
         opponent.accept(Deflect.getInstance());
     }
 
-    public void visit(Knight knight){
-        Visitable opponent = battlefield.GetOpponent(knight);
+    public void visit(final Knight knight) {
+        Visitable opponent = battlefield.getOpponent(knight);
         opponent.accept(Execute.getInstance());
         opponent.accept(Slam.getInstance());
     }

@@ -11,54 +11,54 @@ public final class Battlefield {
 
     private static Battlefield instance = null;
 
-    private Battlefield(){}
+    private Battlefield() { }
     public static Battlefield getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Battlefield();
         }
         return instance;
     }
 
-    protected void CreateBattlefield(int nrRows, int nrCols){
-        this.battlefieldMat = new Lot[nrRows][nrCols];
-        this.nrRows = nrRows;
-        this.nrCols = nrCols;
+    protected void createBattlefield(final int rows, final int columns) {
+        this.battlefieldMat = new Lot[rows][columns];
+        this.nrRows = rows;
+        this.nrCols = columns;
     }
 
-    protected void SetBattlefieldRow(String fileString, int rowNumber){
+    protected void setBattlefieldRow(final String fileString, final int rowNumber) {
 
-        for(int i=0; i<nrCols; i++){
+        for (int i = 0; i < nrCols; i++) {
             battlefieldMat[rowNumber][i] = new Lot(fileString.charAt(i));
         }
     }
 
-    public void RemovePlayer(Player player){
+    public void removePlayer(final Player player) {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
 
-        battlefieldMat[rowPos][columnPos].RemoveOccupant(player);
+        battlefieldMat[rowPos][columnPos].removeOccupant(player);
     }
 
-    public void AddPlayer(Player player){
+    public void addPlayer(final Player player) {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
 
-        battlefieldMat[rowPos][columnPos].AddOccupant(player);
+        battlefieldMat[rowPos][columnPos].addOccupant(player);
     }
 
-    public Lot getLot(Player player){
+    public Lot getLot(final Player player) {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
         return battlefieldMat[rowPos][columnPos];
     }
 
-    public Player GetOpponent(Player assailant){
+    public Player getOpponent(final Player assailant) {
 
         Lot lot = getLot(assailant);
         Player opponent = null;
 
-        for(Player p: lot.getOccupants()){
-            if(!p.equals(assailant)) {
+        for (Player p: lot.getOccupants()) {
+            if (!p.equals(assailant)) {
                 opponent = p;
             }
         }
@@ -77,20 +77,20 @@ public final class Battlefield {
         return nrCols;
     }
 
-    public static class Lot {
+    public final class Lot {
         private final char landType;
-        private ArrayList<Player> occupants;
+        private final ArrayList<Player> occupants;
 
-        public Lot(char landType){
+        public Lot(final char landType) {
             this.landType = landType;
             occupants = new ArrayList<>();
         }
 
-        public void RemoveOccupant(Player player){
+        public void removeOccupant(final Player player) {
             occupants.remove(player);
         }
 
-        public void AddOccupant(Player player){
+        public void addOccupant(final Player player) {
             occupants.add(player);
         }
 
@@ -100,10 +100,6 @@ public final class Battlefield {
 
         public ArrayList<Player> getOccupants() {
             return occupants;
-        }
-
-        public void setOccupants(ArrayList<Player> occupants) {
-            this.occupants = occupants;
         }
     }
 }

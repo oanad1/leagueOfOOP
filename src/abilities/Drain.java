@@ -5,29 +5,33 @@ import constants.PyromancerConstants;
 import constants.RogueConstants;
 import constants.WizardConstants;
 import input.Battlefield;
-import players.*;
+import players.Player;
+import players.Pyromancer;
+import players.Rogue;
+import players.Wizard;
+import players.Knight;
 
-public class Drain implements PlayerVisitor {
+public final class Drain implements PlayerVisitor {
     private static Drain instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
 
 
-    private Drain(){}
+    private Drain() { }
     public static Drain getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Drain();
         }
         return instance;
     }
 
 
-    public void visit(Pyromancer pyromancer) {
-        float procent = CalculateRawDamage(pyromancer) * WizardConstants.DRAIN_MOD_P;
+    public void visit(final Pyromancer pyromancer) {
+        float procent = calculateRawDamage(pyromancer) * WizardConstants.DRAIN_MOD_P;
         int damage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP + PyromancerConstants.LEVEL_HP *
-                pyromancer.getLevel());
+        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP
+                + PyromancerConstants.LEVEL_HP * pyromancer.getLevel());
 
-        if(oppMax < pyromancer.getCurrentHP()){
+        if (oppMax < pyromancer.getCurrentHP()) {
             damage = Math.round(procent *  oppMax);
         } else {
             damage = Math.round(procent *  pyromancer.getCurrentHP());
@@ -37,13 +41,13 @@ public class Drain implements PlayerVisitor {
         pyromancer.setRoundDamage(damage);
     }
 
-    public void visit(Rogue rogue) {
-        float procent = CalculateRawDamage(rogue) * WizardConstants.DRAIN_MOD_R;
+    public void visit(final Rogue rogue) {
+        float procent = calculateRawDamage(rogue) * WizardConstants.DRAIN_MOD_R;
         int damage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP + RogueConstants.LEVEL_HP *
-                rogue.getLevel());
+        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP
+                + RogueConstants.LEVEL_HP * rogue.getLevel());
 
-        if(oppMax < rogue.getCurrentHP()){
+        if (oppMax < rogue.getCurrentHP()) {
             damage = Math.round(procent *  oppMax);
         } else {
             damage = Math.round(procent *  rogue.getCurrentHP());
@@ -53,13 +57,13 @@ public class Drain implements PlayerVisitor {
         rogue.setRoundDamage(damage);
     }
 
-    public void visit(Wizard wizard) {
-        float procent = CalculateRawDamage(wizard);
+    public void visit(final Wizard wizard) {
+        float procent = calculateRawDamage(wizard);
         float unmodDamage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP + WizardConstants.LEVEL_HP *
-                wizard.getLevel());
+        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP
+                + WizardConstants.LEVEL_HP * wizard.getLevel());
 
-        if(oppMax < wizard.getCurrentHP()){
+        if (oppMax < wizard.getCurrentHP()) {
             unmodDamage = procent *  oppMax;
         } else {
             unmodDamage = procent *  wizard.getCurrentHP();
@@ -71,13 +75,13 @@ public class Drain implements PlayerVisitor {
         wizard.setRoundDamage(damage);
     }
 
-    public void visit(Knight knight) {
-        float procent = CalculateRawDamage(knight) * WizardConstants.DRAIN_MOD_K;
+    public void visit(final Knight knight) {
+        float procent = calculateRawDamage(knight) * WizardConstants.DRAIN_MOD_K;
         int damage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP + KnightConstants.LEVEL_HP *
-                knight.getLevel());
+        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP
+                + KnightConstants.LEVEL_HP * knight.getLevel());
 
-        if(oppMax < knight.getCurrentHP()){
+        if (oppMax < knight.getCurrentHP()) {
             damage = Math.round(procent *  oppMax);
         } else {
             damage = Math.round(procent *  knight.getCurrentHP());
@@ -87,12 +91,12 @@ public class Drain implements PlayerVisitor {
         knight.setRoundDamage(damage);
     }
 
-    public float CalculateRawDamage(Player victim){
-        Wizard assailant = (Wizard)battlefield.GetOpponent(victim);
+    public float calculateRawDamage(final Player victim) {
+        Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 
-        float damage = WizardConstants.DRAIN_BASE_PROCENT +
-                WizardConstants.DRAIN_LEVEL_PROCENT * assailant.getLevel();
-        if(battlefield.getLot(assailant).getLandType() == WizardConstants.LAND_TYPE){
+        float damage = WizardConstants.DRAIN_BASE_PROCENT
+                + WizardConstants.DRAIN_LEVEL_PROCENT * assailant.getLevel();
+        if (battlefield.getLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
             damage *= WizardConstants.LAND_TYPE_BONUS;
         }
         return damage;

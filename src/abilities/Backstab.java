@@ -1,37 +1,39 @@
 package abilities;
 
-import constants.PyromancerConstants;
 import constants.RogueConstants;
-import constants.WizardConstants;
 import input.Battlefield;
-import players.*;
+import players.Player;
+import players.Pyromancer;
+import players.Rogue;
+import players.Wizard;
+import players.Knight;
 
-public class Backstab implements PlayerVisitor {
+public final class Backstab implements PlayerVisitor {
     private static Backstab instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
 
-    private Backstab(){}
+    private Backstab() { }
     public static Backstab getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new Backstab();
         }
         return instance;
     }
 
-    public void visit(Pyromancer pyromancer) {
-        int damage = Math.round(CalculateRawDamage(pyromancer) * RogueConstants.BACKSTAB_MOD_P);
+    public void visit(final Pyromancer pyromancer) {
+        int damage = Math.round(calculateRawDamage(pyromancer) * RogueConstants.BACKSTAB_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
-    public void visit(Rogue rogue) {
-        int damage = Math.round(CalculateRawDamage(rogue) * RogueConstants.BACKSTAB_MOD_R);
+    public void visit(final Rogue rogue) {
+        int damage = Math.round(calculateRawDamage(rogue) * RogueConstants.BACKSTAB_MOD_R);
         damage += rogue.getRoundDamage();
-        rogue.setRoundDamage(damage);System.out.println(damage);
+        rogue.setRoundDamage(damage);
     }
 
-    public void visit(Wizard wizard) {
-        float unmodDamage = CalculateRawDamage(wizard);
+    public void visit(final Wizard wizard) {
+        float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
         int damage = Math.round(unmodDamage * RogueConstants.BACKSTAB_MOD_W);
@@ -39,20 +41,20 @@ public class Backstab implements PlayerVisitor {
         wizard.setRoundDamage(damage);
     }
 
-    public void visit(Knight knight) {
-        int damage = Math.round(CalculateRawDamage(knight) * RogueConstants.BACKSTAB_MOD_K);
+    public void visit(final Knight knight) {
+        int damage = Math.round(calculateRawDamage(knight) * RogueConstants.BACKSTAB_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }
 
-    public float CalculateRawDamage(Player victim){
-        Rogue assailant = (Rogue) battlefield.GetOpponent(victim);
+    public float calculateRawDamage(final Player victim) {
+        Rogue assailant = (Rogue) battlefield.getOpponent(victim);
 
-        float damage = RogueConstants.BACKSTAB_BASE_DAMAGE +
-                RogueConstants.BACKSTAB_LEVEL_DAMAGE *assailant.getLevel();
+        float damage = RogueConstants.BACKSTAB_BASE_DAMAGE
+                + RogueConstants.BACKSTAB_LEVEL_DAMAGE * assailant.getLevel();
 
-        if(assailant.getNrBackstabHits() % RogueConstants.BACKSTAB_NR_HITS == 0){
-            if(battlefield.getLot(assailant).getLandType() == RogueConstants.LAND_TYPE) {
+        if (assailant.getNrBackstabHits() % RogueConstants.BACKSTAB_NR_HITS == 0) {
+            if (battlefield.getLot(assailant).getLandType() == RogueConstants.LAND_TYPE) {
                 damage *= RogueConstants.BACKSTAB_CRITICAL;
                 assailant.setNrBackstabHits(assailant.getNrBackstabHits() + 1);
             } else {
@@ -62,7 +64,7 @@ public class Backstab implements PlayerVisitor {
             assailant.setNrBackstabHits(assailant.getNrBackstabHits() + 1);
         }
 
-        if(battlefield.getLot(assailant).getLandType() == RogueConstants.LAND_TYPE){
+        if (battlefield.getLot(assailant).getLandType() == RogueConstants.LAND_TYPE) {
             damage *= RogueConstants.LAND_TYPE_BONUS;
         }
         return damage;

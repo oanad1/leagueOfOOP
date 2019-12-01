@@ -1,8 +1,9 @@
 package players;
 
 import abilities.PlayerVisitor;
+import constants.UniversalConstants;
 
-public abstract class Player implements Visitable{
+public abstract class Player implements Visitable {
     private int rowPos;
     private int columnPos;
     private int id;
@@ -15,9 +16,9 @@ public abstract class Player implements Visitable{
     private int overtimeDamage;
     private boolean priority;
 
-    public Player(int rowPos, int columnPos, int id){
-        this.rowPos = rowPos;
-        this.columnPos = columnPos;
+    public Player(final int rowPosition, final int columnPosition, final int id) {
+        this.rowPos = rowPosition;
+        this.columnPos = columnPosition;
         this.id = id;
         this.currentXP = 0;
         this.level = 0;
@@ -26,109 +27,109 @@ public abstract class Player implements Visitable{
     }
     public abstract void accept(PlayerVisitor visitor);
 
-    public void LevelUp(int opponentLevel) {
+    public final void gainXP(final int opponentLevel) {
 
-        if(200 - 40 * (this.level - opponentLevel) > 0){
-            this.currentXP += 200 - 40 * (this.level - opponentLevel);
+        if (UniversalConstants.WINNER_XP_BASE - UniversalConstants.WINNER_XP_MULTIPLIER
+                * (this.level - opponentLevel) > 0) {
+            this.currentXP += UniversalConstants.WINNER_XP_BASE
+                    - UniversalConstants.WINNER_XP_MULTIPLIER * (this.level - opponentLevel);
         }
-
-        this.level = (this.currentXP - 250)/50 + 1;
     }
 
-    public abstract void resetHP();
+    public abstract void checkLevelUp();
 
-    public boolean isAlive(){
-        if(this.level == -1){
+    public final boolean isAlive() {
+        if (this.level == -1) {
             return false;
         }
         return true;
     }
 
-    public int getOvertimeRounds() {
+    public final int getOvertimeRounds() {
         return overtimeRounds;
     }
 
-    public void setOvertimeRounds(int overtimeRounds) {
+    public final void setOvertimeRounds(final int overtimeRounds) {
         this.overtimeRounds = overtimeRounds;
     }
 
-    public boolean getPriority() {
+    public final boolean getPriority() {
         return priority;
     }
 
-    public void setPriority(boolean priority) {
+    public final void setPriority(final boolean priority) {
         this.priority = priority;
     }
 
-    public int getRoundDamage() {
+    public final int getRoundDamage() {
         return roundDamage;
     }
 
-    public void setRoundDamage(int roundDamage) {
+    public final void setRoundDamage(final int roundDamage) {
         this.roundDamage = roundDamage;
     }
 
-    public int getCurrentHP() {
+    public final int getCurrentHP() {
         return currentHP;
     }
 
-    public void setCurrentHP(int currentHP) {
+    public final void setCurrentHP(final int currentHP) {
         this.currentHP = currentHP;
     }
 
-    public int getCurrentXP() {
+    public final int getCurrentXP() {
         return currentXP;
     }
 
-    public void setCurrentXP(int currentXP) {
+    public final void setCurrentXP(final int currentXP) {
         this.currentXP = currentXP;
     }
 
-    public int getLevel() {
+    public final int getLevel() {
         return level;
     }
 
-    public void setLevel(int level) {
+    public final void setLevel(final int level) {
         this.level = level;
     }
 
-    public int getrowPos() {
+    public final int getrowPos() {
         return rowPos;
     }
 
-    public void setrowPos(int rowPos) {
-        this.rowPos = rowPos;
+    public final void setrowPos(final int rowPosition) {
+        this.rowPos = rowPosition;
     }
 
-    public int getcolumnPos() {
+    public final int getcolumnPos() {
         return columnPos;
     }
 
-    public void setcolumnPos(int columnPos) {
-        this.columnPos = columnPos;
+    public final void setcolumnPos(final int columnPosition) {
+        this.columnPos = columnPosition;
     }
 
-    public int getId() {
+    public final int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public final void setId(final int id) {
         this.id = id;
     }
 
-    public int getImmobilized() {
+    public final int getImmobilized() {
         return immobilized;
     }
 
-    public void setImmobilized(int immobilized) {
+    public final void setImmobilized(final int immobilized) {
         this.immobilized = immobilized;
     }
 
-    public int getOvertimeDamage() {
+    public final int getOvertimeDamage() {
         return overtimeDamage;
     }
 
-    public void setOvertimeDamage(int overtimeDamage) {
+    public final void setOvertimeDamage(final int overtimeDamage) {
         this.overtimeDamage = overtimeDamage;
     }
 }

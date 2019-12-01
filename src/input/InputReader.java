@@ -1,14 +1,13 @@
 package input;
 
-import players.*;
 import fileio.implementations.FileReader;
-
+import players.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public final class InputReader {
 
-    public GameInfo InputLoad(final String inputFile) throws IOException {
+    public GameInfo inputLoad(final String inputFile) throws IOException {
 
         String fileString;
         FileReader fileReader = new FileReader(inputFile);
@@ -17,33 +16,33 @@ public final class InputReader {
         int nrCols = fileReader.nextInt();
 
         Battlefield battlefield = Battlefield.getInstance();
-        battlefield.CreateBattlefield(nrRows,nrCols);
+        battlefield.createBattlefield(nrRows, nrCols);
 
-        for(int i=0; i<nrRows; i++) {
+        for (int i = 0; i < nrRows; i++) {
              fileString = fileReader.nextWord();
-             battlefield.SetBattlefieldRow(fileString,i);
+             battlefield.setBattlefieldRow(fileString, i);
         }
 
 
         int nrPlayers = fileReader.nextInt();
         ArrayList<Player> players = new ArrayList<>();
 
-        for(int i=0; i<nrPlayers; i++) {
+        for (int i = 0; i < nrPlayers; i++) {
             fileString = fileReader.nextWord();
             int rowPos = fileReader.nextInt();
             int columnPos = fileReader.nextInt();
 
-            players.add(PlayersFactory.getPlayer(fileString.charAt(0),rowPos,columnPos,i));
+            players.add(PlayersFactory.getPlayer(fileString.charAt(0), rowPos, columnPos, i));
         }
 
         int nrRounds = fileReader.nextInt();
         ArrayList<String> moves = new ArrayList<>();
 
-        for(int i=0; i<nrRounds; i++){
+        for (int i = 0; i < nrRounds; i++) {
             moves.add(fileReader.nextWord());
         }
         fileReader.close();
-        GameInfo gameInfo = new GameInfo(players,moves);
+        GameInfo gameInfo = new GameInfo(players, moves);
         return gameInfo;
     }
 }

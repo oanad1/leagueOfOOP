@@ -1,16 +1,19 @@
 package constants;
 
-public class RogueConstants {
+public final class RogueConstants {
+
+    private RogueConstants() { }
+
+
     public static final int BASE_HP = 600;
     public static final int LEVEL_HP = 40;
 
-
     public static final int BACKSTAB_BASE_DAMAGE = 200;
     public static final int BACKSTAB_LEVEL_DAMAGE = 20;
-    
+
     public static final int BACKSTAB_NR_HITS = 3;
-    public static final float BACKSTAB_CRITICAL =1.5f;
-            
+    public static final float BACKSTAB_CRITICAL = 1.5f;
+
     public static final float BACKSTAB_MOD_R = 1.2f;
     public static final float BACKSTAB_MOD_K = 0.9f;
     public static final float BACKSTAB_MOD_P = 1.25f;

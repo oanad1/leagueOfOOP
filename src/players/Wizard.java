@@ -1,32 +1,39 @@
 package players;
 
 import abilities.PlayerVisitor;
-import constants.KnightConstants;
+import constants.UniversalConstants;
 import constants.WizardConstants;
 
 public class Wizard extends Player implements Visitable {
 
     private int unmodifiedDamage;
 
-    public Wizard(int rowPos, int columnPos, int id) {
+    public Wizard(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
         this.setCurrentHP(WizardConstants.BASE_HP);
         this.setPriority(false);
     }
 
-    public void accept(PlayerVisitor visitor) {
+    public final void accept(final PlayerVisitor visitor) {
         visitor.visit(this);
     }
 
-    public void resetHP(){
-        this.setCurrentHP(WizardConstants.BASE_HP + this.getLevel() * WizardConstants.LEVEL_HP);
+    public final void checkLevelUp() {
+
+        int newLevel = (this.getCurrentXP() - UniversalConstants.LEVEL_UP_BASE)
+                / UniversalConstants.LEVEL_UP_MULTIPLIER + 1;
+
+        if (newLevel > this.getLevel()) {
+            this.setCurrentHP(WizardConstants.BASE_HP + newLevel * WizardConstants.LEVEL_HP);
+            this.setLevel(newLevel);
+        }
     }
 
-    public int getUnmodifiedDamage() {
+    public final int getUnmodifiedDamage() {
         return unmodifiedDamage;
     }
 
-    public void setUnmodifiedDamage(int unmodifiedDamage) {
+    public final void setUnmodifiedDamage(final int unmodifiedDamage) {
         this.unmodifiedDamage = unmodifiedDamage;
     }
 }

@@ -1,70 +1,70 @@
 package main;
 
-import abilities.FightMode;
 import abilities.PlayerVisitor;
-import input.Battlefield;
-import input.GameInfo;
-import players.*;
-import fileio.FileSystem;
-
+import players.Player;
+import players.Pyromancer;
+import players.Rogue;
+import players.Wizard;
+import players.Knight;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ScoreOutput implements PlayerVisitor {
+public final class ScoreOutput implements PlayerVisitor {
     private final FileWriter fileWriter;
 
-    public ScoreOutput(FileWriter fileWriter) throws IOException {
+    public ScoreOutput(final FileWriter fileWriter) throws IOException {
         this.fileWriter = fileWriter;
     }
 
-    public void printPlayerDetails(Player player) throws IOException {
-        if(player.getLevel() == -1) {
+    public void printplayerdetails(final Player player) throws IOException {
+        if (player.getLevel() == -1) {
             fileWriter.write("dead\n");
         } else {
-            fileWriter.write(player.getLevel() + " " + player.getCurrentXP() + " " + player.getCurrentHP() + " " +
-                    player.getrowPos() + " " + player.getcolumnPos() + '\n');
+            fileWriter.write(player.getLevel() + " "
+                    + player.getCurrentXP() + " " + player.getCurrentHP() + " "
+                    + player.getrowPos() + " " + player.getcolumnPos() + '\n');
         }
     }
 
 
-    public void visit(Pyromancer pyromancer){
+    public void visit(final Pyromancer pyromancer) {
         try {
 
             fileWriter.write("P ");
-            printPlayerDetails(pyromancer);
+            printplayerdetails(pyromancer);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void visit(Rogue rogue){
+    public void visit(final Rogue rogue) {
         try {
 
             fileWriter.write("R ");
-            printPlayerDetails(rogue);
+            printplayerdetails(rogue);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void visit(Wizard wizard){
+    public void visit(final Wizard wizard) {
         try {
 
             fileWriter.write("W ");
-            printPlayerDetails(wizard);
+            printplayerdetails(wizard);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void visit(Knight knight){
+    public void visit(final Knight knight) {
         try {
 
             fileWriter.write("K ");
-            printPlayerDetails(knight);
+            printplayerdetails(knight);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -4,12 +4,12 @@ import players.Player;
 
 import java.util.ArrayList;
 
-public class GameInfo {
+public final class GameInfo {
     private final ArrayList<Player> players;
     private final ArrayList<String> moves;
     private final int nrRounds;
 
-    public GameInfo(ArrayList<Player> players, ArrayList<String> moves){
+    public GameInfo(final ArrayList<Player> players, final ArrayList<String> moves) {
         this.players = players;
         this.moves = moves;
         this.nrRounds = moves.size();

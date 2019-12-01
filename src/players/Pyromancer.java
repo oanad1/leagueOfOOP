@@ -1,22 +1,29 @@
 package players;
 
 import abilities.PlayerVisitor;
-import constants.KnightConstants;
 import constants.PyromancerConstants;
-import constants.WizardConstants;
+import constants.UniversalConstants;
 
-public class Pyromancer extends Player implements Visitable{
+public class Pyromancer extends Player implements Visitable {
 
-    public Pyromancer(int rowPos, int columnPos, int id) {
+    public Pyromancer(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
         this.setCurrentHP(PyromancerConstants.BASE_HP);
     }
 
-    public void accept(PlayerVisitor visitor) {
+    public final void accept(final PlayerVisitor visitor) {
         visitor.visit(this);
     }
 
-    public void resetHP(){
-        this.setCurrentHP(PyromancerConstants.BASE_HP + this.getLevel() * PyromancerConstants.LEVEL_HP);
+    public final void checkLevelUp() {
+
+        int newLevel = (this.getCurrentXP() - UniversalConstants.LEVEL_UP_BASE)
+                / UniversalConstants.LEVEL_UP_MULTIPLIER + 1;
+
+        if (newLevel > this.getLevel()) {
+            this.setCurrentHP(PyromancerConstants.BASE_HP
+                    + newLevel * PyromancerConstants.LEVEL_HP);
+            this.setLevel(newLevel);
+        }
     }
 }

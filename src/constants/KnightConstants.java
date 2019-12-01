@@ -1,6 +1,9 @@
 package constants;
 
-public class KnightConstants {
+public final class KnightConstants {
+
+    private KnightConstants() { }
+
     public static final int BASE_HP = 900;
     public static final int LEVEL_HP = 80;
 
@@ -25,4 +28,5 @@ public class KnightConstants {
     public static final float LAND_TYPE_BONUS = 1.15f;
 
     public static final int DEAD = -1;
+
 }

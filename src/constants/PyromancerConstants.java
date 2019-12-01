@@ -1,6 +1,9 @@
 package constants;
 
 public final class PyromancerConstants {
+
+    private PyromancerConstants() { }
+
     public static final int BASE_HP = 500;
     public static final int LEVEL_HP = 50;
 
