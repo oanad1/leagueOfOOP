@@ -52,6 +52,19 @@ public final class Battlefield {
         return battlefieldMat[rowPos][columnPos];
     }
 
+    public Player GetOpponent(Player assailant){
+
+        Lot lot = getLot(assailant);
+        Player opponent = null;
+
+        for(Player p: lot.getOccupants()){
+            if(!p.equals(assailant)) {
+                opponent = p;
+            }
+        }
+        return opponent;
+    }
+
     public Lot[][] getBattlefieldMat() {
         return battlefieldMat;
     }

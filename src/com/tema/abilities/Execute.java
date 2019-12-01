@@ -16,22 +16,22 @@ public class Execute implements PlayerVisitor {
         }
         return instance;
     }
-    @Override
+
     public void visit(Pyromancer pyromancer) {
 
     }
 
-    @Override
+
     public void visit(Rogue rogue) {
 
     }
 
-    @Override
+
     public void visit(Wizard wizard) {
 
     }
 
-    @Override
+
     public void visit(Knight knight) {
 
     }

@@ -2,6 +2,7 @@ package com.tema.players;
 
 import com.tema.abilities.PlayerVisitor;
 import com.tema.constants.PyromancerConstants;
+import com.tema.constants.WizardConstants;
 
 public class Pyromancer extends Player implements Visitable{
 
@@ -11,6 +12,9 @@ public class Pyromancer extends Player implements Visitable{
 
     public void accept(PlayerVisitor visitor) {
         visitor.visit(this);
+        this.setCurrentHP(PyromancerConstants.BASE_HP);
+    }
+    public void LevelUp() {
         this.setCurrentHP(PyromancerConstants.BASE_HP);
     }
 }

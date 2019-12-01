@@ -10,6 +10,7 @@ public class Player implements Visitable{
     private int currentHP;
     private int currentXP;
     private int level;
+    private float roundDamage;
 
     public Player(int rowPos, int columnPos, int id){
         this.rowPos = rowPos;
@@ -17,12 +18,20 @@ public class Player implements Visitable{
         this.id = id;
         this.currentXP = 0;
         this.level = 0;
+        this.roundDamage = 0;
     }
     public void accept(PlayerVisitor visitor) {}
 
     public void LevelUp() {
         this.level = (this.currentXP - 250)/50;
-        currentHP = 0;
+    }
+
+    public float getRoundDamage() {
+        return roundDamage;
+    }
+
+    public void setRoundDamage(float roundDamage) {
+        this.roundDamage = roundDamage;
     }
 
     public int getCurrentHP() {

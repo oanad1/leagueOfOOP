@@ -1,5 +1,6 @@
 package com.tema.main;
 
+import com.tema.abilities.FightMode;
 import com.tema.input.GameInfo;
 import com.tema.players.Player;
 
@@ -11,6 +12,9 @@ public class GameSystem {
         for(int i=0; i < gameInfo.getNrRounds(); i++){
             String roundMoves = gameInfo.getMoves().get(i);
             playRound(gameInfo.getPlayers(),roundMoves);
+
+            FightMode fightMode = FightMode.getInstance();
+            fightMode.setRoundNr(i);
         }
     }
 

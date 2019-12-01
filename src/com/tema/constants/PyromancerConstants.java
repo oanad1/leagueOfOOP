@@ -13,8 +13,8 @@ public final class PyromancerConstants {
 
     public static final int IGNITE_BASE_DAMAGE = 150;
     public static final int IGNITE_LEVEL_DAMAGE = 20;
-    public static final int IGNITE_SMALL_BASE_DAMAGE = 150;
-    public static final int IGNITE_SMALL_LEVEL_DAMAGE = 20;
+    public static final int IGNITE_SMALL_BASE_DAMAGE = 50;
+    public static final int IGNITE_SMALL_LEVEL_DAMAGE = 30;
     public static final float IGNITE_MOD_R = 0.8f;
     public static final float IGNITE_MOD_K = 1.2f;
     public static final float IGNITE_MOD_P = 0.9f;

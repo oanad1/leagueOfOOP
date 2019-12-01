@@ -13,5 +13,8 @@ public class Wizard extends Player implements Visitable {
         visitor.visit(this);
         this.setCurrentHP(WizardConstants.BASE_HP);
     }
+    public void LevelUp() {
+        this.setCurrentHP(WizardConstants.BASE_HP);
+    }
 }
 
