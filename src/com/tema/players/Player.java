@@ -11,6 +11,7 @@ public class Player implements Visitable{
     private int currentXP;
     private int level;
     private float roundDamage;
+    private int overtimeDamage;
 
     public Player(int rowPos, int columnPos, int id){
         this.rowPos = rowPos;
@@ -88,5 +89,13 @@ public class Player implements Visitable{
 
     public void setImmobilized(int immobilized) {
         this.immobilized = immobilized;
+    }
+
+    public int getOvertimeDamage() {
+        return overtimeDamage;
+    }
+
+    public void setOvertimeDamage(int overtimeDamage) {
+        this.overtimeDamage = overtimeDamage;
     }
 }

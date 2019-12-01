@@ -5,7 +5,7 @@ import com.tema.constants.RogueConstants;
 import com.tema.constants.WizardConstants;
 
 public class Rogue extends Player implements Visitable{
-
+    private int nrBackstabHits = 0;
     public Rogue(int rowPos, int columnPos, int id) {
         super(rowPos, columnPos, id);
     }
@@ -16,5 +16,13 @@ public class Rogue extends Player implements Visitable{
     }
     public void LevelUp() {
         this.setCurrentHP(RogueConstants.BASE_HP);
+    }
+
+    public int getNrBackstabHits() {
+        return nrBackstabHits;
+    }
+
+    public void setNrBackstabHits(int nrBackstabHits) {
+        this.nrBackstabHits = nrBackstabHits;
     }
 }

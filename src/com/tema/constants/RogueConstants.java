@@ -8,7 +8,7 @@ public class RogueConstants {
     public static final int BACKSTAB_BASE_DAMAGE = 200;
     public static final int BACKSTAB_LEVEL_DAMAGE = 20;
     
-    public static final int BACKSTAB_NR_HITS = 3;
+    public static final int BACKSTAB_NR_HITS = 2;
     public static final float BACKSTAB_CRITICAL =1.5f;
             
     public static final float BACKSTAB_MOD_R = 1.2f;
