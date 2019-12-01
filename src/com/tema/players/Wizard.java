@@ -1,6 +1,7 @@
 package com.tema.players;
 
 import com.tema.abilities.PlayerVisitor;
+import com.tema.constants.KnightConstants;
 import com.tema.constants.WizardConstants;
 
 public class Wizard extends Player implements Visitable {
@@ -9,14 +10,15 @@ public class Wizard extends Player implements Visitable {
 
     public Wizard(int rowPos, int columnPos, int id) {
         super(rowPos, columnPos, id);
+        this.setCurrentHP(WizardConstants.BASE_HP);
     }
 
     public void accept(PlayerVisitor visitor) {
         visitor.visit(this);
-        this.setCurrentHP(WizardConstants.BASE_HP);
     }
-    public void LevelUp() {
-        this.setCurrentHP(WizardConstants.BASE_HP);
+
+    public void resetHP(){
+        this.setCurrentHP(WizardConstants.BASE_HP + this.getLevel() * WizardConstants.LEVEL_HP);
     }
 
     public int getUnmodifiedDamage() {

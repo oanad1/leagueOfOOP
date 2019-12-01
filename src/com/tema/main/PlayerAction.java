@@ -12,7 +12,12 @@ public class PlayerAction {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
 
-        if(player.isImmobilized()) {
+        if(player.getImmobilized()!= 0) {
+            int imRounds = player.getImmobilized()-1;
+            if(imRounds == 0) {
+                player.setOvertimeDamage(0);
+            }
+            player.setImmobilized(imRounds);
             return;
         }
 
@@ -38,8 +43,29 @@ public class PlayerAction {
 
     public static void Fight(Player player){
          Battlefield.Lot lot = battlefield.getLot(player);
+
          if(lot.getOccupants().size() == 2){
-            player.accept(FightMode.getInstance());
+             player.accept(FightMode.getInstance());
          }
+    }
+
+    public static void SufferDamage(Player player){
+        player.setCurrentHP((int) (player.getCurrentHP() - player.getRoundDamage()));
+        if(player.getCurrentHP() <= 0){
+            Player opponent = battlefield.GetOpponent(player);
+            opponent.LevelUp(player.getLevel());
+        }
+    }
+
+    public static void CheckDeath(Player player){
+        if(player.getCurrentHP() <=0 && player.getLevel() > -1){
+
+            Player opponent = battlefield.GetOpponent(player);
+            opponent.LevelUp(player.getLevel());
+            opponent.resetHP();
+
+            player.setLevel(-1);
+            battlefield.RemovePlayer(player);
+        }
     }
 }

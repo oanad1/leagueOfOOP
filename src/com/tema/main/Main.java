@@ -1,8 +1,10 @@
 package com.tema.main;
 
-import com.tema.input.FileReader;
+import com.tema.input.InputReader;
 import com.tema.input.GameInfo;
+import com.tema.players.Player;
 
+import java.io.FileWriter;
 import java.io.IOException;
 
 public final class Main {
@@ -10,11 +12,18 @@ public final class Main {
     }
 
     public static void main(final String[] args) throws IOException {
-        FileReader fileReader = new FileReader(args[0], args[1]);
-        GameInfo gameInfo = fileReader.FileLoad();
+        InputReader inputReader = new InputReader();
+        GameInfo gameInfo = inputReader.InputLoad(args[0]);
 
         GameSystem gameSystem = new GameSystem();
         gameSystem.playGame(gameInfo);
 
+        FileWriter fileWriter = new FileWriter(args[1]);
+        ScoreOutput scoreOutput = new ScoreOutput(fileWriter);
+
+        for(Player player: gameInfo.getPlayers()){
+            player.accept(scoreOutput);
+        }
+        fileWriter.close();
     }
 }

@@ -33,8 +33,7 @@ public class Execute implements PlayerVisitor {
      Math.round(HPLimit);
 
      if(pyromancer.getCurrentHP() < HPLimit){
-         battlefield.RemovePlayer(pyromancer);
-         pyromancer.setLevel(PyromancerConstants.DEAD);
+         pyromancer.setRoundDamage(pyromancer.getCurrentHP());
          return;
      }
 
@@ -58,8 +57,7 @@ public class Execute implements PlayerVisitor {
         Math.round(HPLimit);
 
         if(rogue.getCurrentHP() < HPLimit){
-            battlefield.RemovePlayer(rogue);
-            rogue.setLevel(RogueConstants.DEAD);
+            rogue.setRoundDamage(rogue.getCurrentHP());
             return;
         }
 
@@ -83,8 +81,8 @@ public class Execute implements PlayerVisitor {
         Math.round(HPLimit);
 
         if(wizard.getCurrentHP() < HPLimit){
-            battlefield.RemovePlayer(wizard);
-            wizard.setLevel(WizardConstants.DEAD);
+            wizard.setUnmodifiedDamage(wizard.getCurrentHP());
+            wizard.setRoundDamage(wizard.getCurrentHP());
             return;
         }
 
@@ -111,8 +109,7 @@ public class Execute implements PlayerVisitor {
         Math.round(HPLimit);
 
         if(knight.getCurrentHP() < HPLimit){
-            battlefield.RemovePlayer(knight);
-            knight.setLevel(KnightConstants.DEAD);
+            knight.setRoundDamage(knight.getCurrentHP());
             return;
         }
 

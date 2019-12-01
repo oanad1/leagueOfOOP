@@ -2,7 +2,7 @@ package com.tema.players;
 
 import com.tema.abilities.PlayerVisitor;
 
-public class Player implements Visitable{
+public abstract class Player implements Visitable{
     private int rowPos;
     private int columnPos;
     private int id;
@@ -21,11 +21,26 @@ public class Player implements Visitable{
         this.level = 0;
         this.roundDamage = 0;
     }
-    public void accept(PlayerVisitor visitor) {}
+    public abstract void accept(PlayerVisitor visitor);
 
-    public void LevelUp() {
-        this.level = (this.currentXP - 250)/50;
+    public void LevelUp(int opponentLevel) {
+
+        if(200 - 40 * (this.level - opponentLevel) > 0){
+            this.currentXP += 200 - 40 * (this.level - opponentLevel);
+        }
+
+        this.level = (this.currentXP - 250)/50 + 1;
     }
+
+    public abstract void resetHP();
+
+    public boolean isAlive(){
+        if(this.level == -1){
+            return false;
+        }
+        return true;
+    }
+
 
     public float getRoundDamage() {
         return roundDamage;

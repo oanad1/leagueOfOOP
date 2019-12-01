@@ -87,11 +87,7 @@ public final class Battlefield {
         }
 
         public void RemoveOccupant(Player player){
-            for(Player p: occupants){
-                if(p.equals(player)){
-                    occupants.remove(p);
-                }
-            }
+            occupants.remove(player);
         }
 
         public void AddOccupant(Player player){

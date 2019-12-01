@@ -8,14 +8,14 @@ public class Knight extends Player implements Visitable {
 
     public Knight(int rowPos, int columnPos, int id) {
         super(rowPos, columnPos, id);
+        this.setCurrentHP(KnightConstants.BASE_HP);
     }
 
     public void accept(PlayerVisitor visitor) {
         visitor.visit(this);
-        this.setCurrentHP(KnightConstants.BASE_HP);
     }
 
-    public void LevelUp() {
-        this.setCurrentHP(KnightConstants.BASE_HP);
+    public void resetHP(){
+        this.setCurrentHP(KnightConstants.BASE_HP + this.getLevel() * KnightConstants.LEVEL_HP);
     }
 }
