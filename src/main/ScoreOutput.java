@@ -10,7 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Visitor class which outputs the corresponding final result for each player
+ * Visitor class which outputs the corresponding final result for each player.
  * **/
 public final class ScoreOutput implements PlayerVisitor {
     private final FileWriter fileWriter;
@@ -20,7 +20,7 @@ public final class ScoreOutput implements PlayerVisitor {
     }
 
     /**
-     * Writes data common to all players
+     * Writes data common to all players.
      * @param player the player whose information is written
      * @throws IOException
      */
@@ -35,7 +35,7 @@ public final class ScoreOutput implements PlayerVisitor {
     }
 
     /**
-     * Visitor pattern method for outputting the results of a pyromancer player
+     * Visitor pattern method for outputting the results of a pyromancer player.
      * @param pyromancer visitable object
      */
     public void visit(final Pyromancer pyromancer) {
@@ -50,7 +50,7 @@ public final class ScoreOutput implements PlayerVisitor {
     }
 
     /**
-     * Visitor pattern method for outputting the results of a rogue player
+     * Visitor pattern method for outputting the results of a rogue player.
      * @param rogue visitable object
      */
     public void visit(final Rogue rogue) {
@@ -65,7 +65,7 @@ public final class ScoreOutput implements PlayerVisitor {
     }
 
     /**
-     * Visitor pattern method for outputting the results of a wizard player
+     * Visitor pattern method for outputting the results of a wizard player.
      * @param wizard visitable object
      */
     public void visit(final Wizard wizard) {
@@ -80,7 +80,7 @@ public final class ScoreOutput implements PlayerVisitor {
     }
 
     /**
-     * Visitor pattern method for outputting the results of a knight player
+     * Visitor pattern method for outputting the results of a knight player.
      * @param knight visitable object
      */
     public void visit(final Knight knight) {

@@ -1,7 +1,7 @@
 package constants;
 
 /**
- * Constants used by the Wizard Players
+ * Constants used by the Wizard Players.
  */
 public final class WizardConstants {
 

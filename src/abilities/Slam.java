@@ -10,8 +10,8 @@ import players.Knight;
 
 
 /**
- * Slam ability specific to the Knight players
- * Singleton class implementing the PlayerVisitor interface
+ * Slam ability specific to the Knight players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Slam implements PlayerVisitor {
     private static Slam instance = null;
@@ -26,7 +26,7 @@ public final class Slam implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on pyromancer and immobilizes him
+     * Applies damage on pyromancer and immobilizes him.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
@@ -37,7 +37,7 @@ public final class Slam implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on rogue and immobilizes him
+     * Applies damage on rogue and immobilizes him.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -48,7 +48,7 @@ public final class Slam implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on wizard and immobilizes him
+     * Applies damage on wizard and immobilizes him.
      * Also calculates damage without race modifiers
      * @param wizard victim
      */
@@ -63,7 +63,7 @@ public final class Slam implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on knight and immobilizes him
+     * Applies damage on knight and immobilizes him.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -74,7 +74,7 @@ public final class Slam implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent
+     * Calculates the total damage by using the victim's opponent.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */

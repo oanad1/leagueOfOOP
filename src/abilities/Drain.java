@@ -12,8 +12,8 @@ import players.Wizard;
 import players.Knight;
 
 /**
- * Drain ability specific to the Wizard players
- * Singleton class implementing the PlayerVisitor interface
+ * Drain ability specific to the Wizard players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Drain implements PlayerVisitor {
     private static Drain instance = null;
@@ -29,7 +29,7 @@ public final class Drain implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on pyromancer based on a procent of its min HP
+     * Applies damage on pyromancer based on a procent of its min HP.
      * @param pyromancer victimAppApplyly
      */
     public void visit(final Pyromancer pyromancer) {
@@ -49,7 +49,7 @@ public final class Drain implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on rogue based on a percent of its min HP
+     * Applies damage on rogue based on a percent of its min HP.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -92,7 +92,7 @@ public final class Drain implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on knight based on a percent of its min HP
+     * Applies damage on knight based on a percent of its min HP.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -112,7 +112,7 @@ public final class Drain implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent
+     * Calculates the total damage by using the victim's opponent.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */

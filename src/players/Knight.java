@@ -5,7 +5,7 @@ import constants.KnightConstants;
 import constants.UniversalConstants;
 
 /**
- * An implementation of a Knight player, extension of a Player class
+ * An implementation of a Knight player, extension of a Player class.
  */
 public class Knight extends Player implements Visitable {
 

@@ -1,7 +1,7 @@
 package constants;
 
 /**
- * Constants used by the Pyromancer Players
+ * Constants used by the Pyromancer Players.
  */
 public final class PyromancerConstants {
 

@@ -9,7 +9,7 @@ import players.Wizard;
 import players.Knight;
 
 /**
- * Backstab ability specific to the Rogue players
+ * Backstab ability specific to the Rogue players.
  * Singleton class implementing the PlayerVisitor interface
  */
 public final class Backstab implements PlayerVisitor {
@@ -25,7 +25,7 @@ public final class Backstab implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on pyromancer
+     * Applies damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
@@ -35,7 +35,7 @@ public final class Backstab implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on rogue
+     * Applies damage on rogue.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -45,7 +45,7 @@ public final class Backstab implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on wizard
+     * Applies damage on wizard.
      * Also calculates unmodified damage
      * @param wizard victim
      */
@@ -59,7 +59,7 @@ public final class Backstab implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on knight
+     * Applies damage on knight.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -69,7 +69,7 @@ public final class Backstab implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage, applying a critical hit once every 3 fights
+     * Calculates the total damage, applying a critical hit once every 3 fights.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */

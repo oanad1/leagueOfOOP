@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Class used to read input from the input file and load it
- * into GameInfo and Battlefield
+ * into GameInfo and Battlefield.
  */
 public final class InputReader {
 
@@ -48,7 +48,7 @@ public final class InputReader {
         int nrRounds = fileReader.nextInt();
         ArrayList<String> moves = new ArrayList<>();
 
-        //For each round i, load a string containing the moves for each player in the moves array at index i
+        //For each round i, load a string with each player's moves
         for (int i = 0; i < nrRounds; i++) {
             moves.add(fileReader.nextWord());
         }

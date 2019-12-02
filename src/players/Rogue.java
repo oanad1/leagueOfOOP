@@ -5,7 +5,7 @@ import constants.RogueConstants;
 import constants.UniversalConstants;
 
 /**
- * An implementation of a Rogue player, extension of a Player class
+ * An implementation of a Rogue player, extension of a Player class.
  */
 public class Rogue extends Player implements Visitable {
 

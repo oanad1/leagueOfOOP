@@ -5,7 +5,7 @@ import constants.UniversalConstants;
 
 /**
  * An abstract class which provides common methods
- * and information for all players
+ * and information for all players.
  */
 public abstract class Player implements Visitable {
     private int rowPos;               //The player's row index in the map
@@ -18,7 +18,7 @@ public abstract class Player implements Visitable {
     private int roundDamage;          //The damage suffered in the current round
     private int overtimeRounds = 0;   //The number of overtime rounds the player has left
     private int overtimeDamage;       //The overtime damage
-    private boolean priority;         //Set to true for all players except wizard (applied in case of fight)
+    private boolean priority;         //Set to true for all players except wizard
 
     public Player(final int rowPosition, final int columnPosition, final int id) {
         this.rowPos = rowPosition;
@@ -31,14 +31,14 @@ public abstract class Player implements Visitable {
     }
 
     /**
-     * Abstract method implementing the Visitor pattern
+     * Abstract method implementing the Visitor pattern.
      * @param visitor the type of action applied to the player
      * **/
     public abstract void accept(PlayerVisitor visitor);
 
 
     /**
-     * Method to calculate the player's gained XP as result of a fight
+     * Method to calculate the player's gained XP as result of a fight.
      * @param opponentLevel the level of the killed opponent
      * **/
     public final void gainXP(final int opponentLevel) {
@@ -51,13 +51,13 @@ public abstract class Player implements Visitable {
     }
 
     /**
-     * Abstract method to level up a player
+     * Abstract method to level up a player.
      * **/
     public abstract void checkLevelUp();
 
 
     /**
-     * A method to check if a player is alive
+     * A method to check if a player is alive.
      * **/
     public final boolean isAlive() {
         if (this.level == -1) {

@@ -10,8 +10,8 @@ import players.Knight;
 
 
 /**
- * Deflect ability specific to the Wizard players
- * Singleton class implementing the PlayerVisitor interface
+ * Deflect ability specific to the Wizard players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Deflect implements PlayerVisitor {
     private static Deflect instance = null;
@@ -26,7 +26,7 @@ public final class Deflect implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on pyromancer
+     * Applies damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
@@ -36,7 +36,7 @@ public final class Deflect implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on rogue
+     * Applies damage on rogue.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -46,7 +46,7 @@ public final class Deflect implements PlayerVisitor {
     }
 
     /**
-     * Does not apply anything on another wizard
+     * Does not apply anything on another wizard.
      * @param wizard
      */
     public void visit(final Wizard wizard) {
@@ -54,7 +54,7 @@ public final class Deflect implements PlayerVisitor {
     }
 
     /**
-     * Applies damage on knight
+     * Applies damage on knight.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -64,7 +64,7 @@ public final class Deflect implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent and his unmodified damage
+     * Calculates the total damage by using the victim's opponent and his unmodified damage.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */

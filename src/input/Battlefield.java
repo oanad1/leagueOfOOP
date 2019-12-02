@@ -28,7 +28,7 @@ public final class Battlefield {
 
 
     /**
-     * Method used to initialize a battlefield class from within the package
+     * Method used to initialize a battlefield class from within the package.
      * @param rows number of rows for the map matrix
      * @param columns number of columns for the map matrix
      */
@@ -40,7 +40,7 @@ public final class Battlefield {
 
 
     /**
-     * Method used to initialize a row in the battlefield
+     * Method used to initialize a row in the battlefield.
      * @param fileString a string containing all land types for the current row cells
      * @param rowNumber the current row number
      */
@@ -53,7 +53,7 @@ public final class Battlefield {
 
 
     /**
-     * Method used to remove a player from the battlefield
+     * Method used to remove a player from the battlefield.
      * @param player player to remove
      */
     public void removePlayer(final Player player) {
@@ -65,7 +65,7 @@ public final class Battlefield {
 
 
     /**
-     * Method used to add a player to the battlefield
+     * Method used to add a player to the battlefield.
      * @param player player to add
      */
     public void addPlayer(final Player player) {
@@ -77,9 +77,9 @@ public final class Battlefield {
 
 
     /**
-     * Method used to return a player's lot on the battlefield
+     * Method used to return a player's lot on the battlefield.
      * @param player player to search for
-     * @return a Lot class where the player is stored in the occupants array
+     * @return a Lot class where the player is stored in the occupants array.
      */
     public Lot getLot(final Player player) {
         int rowPos = player.getrowPos();
@@ -91,7 +91,7 @@ public final class Battlefield {
     /**
      * Method which returns the opponent of a player.
      * @param player player who needs to know its opponent
-     * @return the other occupant of the battlefield cell, or null if there isn't any
+     * @return the other occupant of the battlefield cell, or null if there isn't any.
      */
     public Player getOpponent(final Player player) {
 
@@ -122,7 +122,7 @@ public final class Battlefield {
     /**
      * Internal class representing a cell in the battlefield matrix;
      * It stores information about the type of land and references to
-     * the players which are currently placed on it
+     * the players which are currently placed on it.
      */
     public final class Lot {
         private final char landType;                 //Type of land inside the cell
@@ -134,7 +134,7 @@ public final class Battlefield {
         }
 
         /**
-         * Method used to remove a player from the lot
+         * Method used to remove a player from the lot.
          * @param player player to remove
          */
         public void removeOccupant(final Player player) {
@@ -142,7 +142,7 @@ public final class Battlefield {
         }
 
         /**
-         * Method used to add a player to the lot
+         * Method used to add a player to the lot.
          * @param player player to add
          */
         public void addOccupant(final Player player) {

@@ -7,7 +7,7 @@ import players.Player;
 
 /**
  * Object containing methods equivalent to the actions each player is
- * executing during a round
+ * executing during a round.
  */
 public final class PlayerAction {
 
@@ -16,7 +16,7 @@ public final class PlayerAction {
     private PlayerAction() { }
 
     /**
-     * Allows player to move on the map
+     * Allows player to move on the map.
      * @param player player which is supposed to be moved on the map
      * @param move a character representing the player's movement
      * **/
@@ -62,7 +62,7 @@ public final class PlayerAction {
 
 
     /**
-     * Allows player to fight its opponent
+     * Allows player to fight its opponent.
      * @param player player who is supposed to fight
      * **/
     public static void fight(final Player player) {
@@ -76,7 +76,7 @@ public final class PlayerAction {
 
 
     /**
-     * Applies the accumulated damage to the player's HP
+     * Applies the accumulated damage to the player's HP.
      * @param player player for whom damage is applied
      * **/
     public static void sufferDamage(final Player player) {
@@ -86,7 +86,7 @@ public final class PlayerAction {
 
 
     /**
-     * Checks if the player is still alive after the last round
+     * Checks if the player is still alive after the last round.
      * @param player player to check for life
      * **/
     public static void checkDeath(final Player player) {

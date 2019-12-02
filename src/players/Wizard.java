@@ -5,7 +5,7 @@ import constants.UniversalConstants;
 import constants.WizardConstants;
 
 /**
- * An implementation of a Wizard player, extension of a Player class
+ * An implementation of a Wizard player, extension of a Player class.
  */
 public class Wizard extends Player implements Visitable {
 

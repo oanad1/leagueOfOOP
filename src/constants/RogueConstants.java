@@ -1,7 +1,7 @@
 package constants;
 
 /**
- * Constants used by the Rogue Players
+ * Constants used by the Rogue Players.
  */
 public final class RogueConstants {
 

@@ -5,7 +5,7 @@ import constants.PyromancerConstants;
 import constants.UniversalConstants;
 
 /**
- * An implementation of a Pyromancer player, extension of a Player class
+ * An implementation of a Pyromancer player, extension of a Player class.
  */
 public class Pyromancer extends Player implements Visitable {
 

@@ -1,7 +1,7 @@
 package constants;
 
 /**
- * Constants used by the Knight Players
+ * Constants used by the Knight Players.
  */
 public final class KnightConstants {
 

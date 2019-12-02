@@ -9,7 +9,7 @@ import players.Knight;
 /**
  * A factory class used to create instances of a Player object:
  * Wizard, Pyromancer, Rouge or Knight, based on a character
- * representing the player's race
+ * representing the player's race.
  */
 public final class PlayersFactory {
 

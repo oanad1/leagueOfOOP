@@ -9,13 +9,13 @@ import java.util.ArrayList;
 /**
  * Object used to mimic the game's functionality; Its methods are used
  * to play the rounds, one by one, and perform the corresponding actions
- * for the players
+ * for the players.
  */
 
 public final class GameSystem {
 
     /**
-     * Method which calls a function performing the operations for each round
+     * Method which calls a function performing the operations for each round.
      * @param gameInfo class which holds important information about the game
      * **/
     public void playGame(final GameInfo gameInfo) {
@@ -26,7 +26,7 @@ public final class GameSystem {
     }
 
     /**
-     * Method which applies actions for each player during a game round
+     * Method which applies actions for each player during a game round.
      * @param players list of players in their initial order
      * @param moves string containing all player moves for the current round
      * **/

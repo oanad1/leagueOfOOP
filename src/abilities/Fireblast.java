@@ -10,8 +10,8 @@ import players.Knight;
 
 
 /**
- * Ignote ability specific to the Pyromancer players
- * Singleton class implementing the PlayerVisitor interface
+ * Ignote ability specific to the Pyromancer players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Fireblast implements PlayerVisitor {
     private static Fireblast instance = null;
@@ -25,7 +25,7 @@ public final class Fireblast implements PlayerVisitor {
     }
 
     /**
-     * Apply damage on pyromancer
+     * Apply damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
@@ -36,7 +36,7 @@ public final class Fireblast implements PlayerVisitor {
     }
 
     /**
-     * Apply damage on rogue
+     * Apply damage on rogue.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -46,7 +46,7 @@ public final class Fireblast implements PlayerVisitor {
     }
 
     /**
-     * Apply damage on wizard
+     * Apply damage on wizard.
      * Also calculate unmodified damage
      * @param wizard victim
      */
@@ -60,7 +60,7 @@ public final class Fireblast implements PlayerVisitor {
     }
 
     /**
-     * Apply damage on knight
+     * Apply damage on knight.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -70,7 +70,7 @@ public final class Fireblast implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage without race modifiers
+     * Calculates the total damage without race modifiers.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */

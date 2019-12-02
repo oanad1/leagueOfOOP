@@ -10,8 +10,8 @@ import players.Knight;
 
 
 /**
- * Ignite ability specific to the Pyromancer players
- * Singleton class implementing the PlayerVisitor interface
+ * Ignite ability specific to the Pyromancer players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Ignite implements PlayerVisitor {
     private static Ignite instance = null;
@@ -27,7 +27,7 @@ public final class Ignite implements PlayerVisitor {
 
 
     /**
-     * Apply damage and overtime damage on pyromancer
+     * Apply damage and overtime damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
@@ -41,7 +41,7 @@ public final class Ignite implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on rogue
+     * Apply damage and overtime damage on rogue.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -55,7 +55,7 @@ public final class Ignite implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on wizard
+     * Apply damage and overtime damage on wizard.
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
@@ -72,7 +72,7 @@ public final class Ignite implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on knight
+     * Apply damage and overtime damage on knight.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -86,7 +86,7 @@ public final class Ignite implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage without race modifiers
+     * Calculates the total damage without race modifiers.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
@@ -105,7 +105,7 @@ public final class Ignite implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total overtime damage without race modifiers
+     * Calculates the total overtime damage without race modifiers.
      * @param victim player who is attacked
      * @return total overtime damage without race modifiers
      */

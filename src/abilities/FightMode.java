@@ -9,7 +9,7 @@ import players.Knight;
 
 /**
  * A class which implements a visitor pattern allowing players to
- * apply their abilities in a fight
+ * apply their abilities in a fight.
  */
 public final class FightMode implements PlayerVisitor {
     private static FightMode instance = null;
@@ -24,7 +24,7 @@ public final class FightMode implements PlayerVisitor {
     }
 
     /**
-     * Applies rogue Backstab and Paralysis ability
+     * Applies rogue Backstab and Paralysis ability.
      * @param rogue attacker
      */
     public void visit(final Rogue rogue) {
@@ -34,7 +34,7 @@ public final class FightMode implements PlayerVisitor {
     }
 
     /**
-     * Applies pyromancer Fireblast and Ignite ability
+     * Applies pyromancer Fireblast and Ignite ability.
      * @param pyromancer attacker
      */
     public void visit(final Pyromancer pyromancer) {
@@ -44,7 +44,7 @@ public final class FightMode implements PlayerVisitor {
     }
 
     /**
-     * Applies wizatd Drain and Deflect ability
+     * Applies wizatd Drain and Deflect ability.
      * @param wizard attacker
      */
     public void visit(final Wizard wizard) {
@@ -54,7 +54,7 @@ public final class FightMode implements PlayerVisitor {
     }
 
     /**
-     * Applies knight Execute and Slam ability
+     * Applies knight Execute and Slam ability.
      * @param knight attacker
      */
     public void visit(final Knight knight) {

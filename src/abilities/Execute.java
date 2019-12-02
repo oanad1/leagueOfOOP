@@ -13,8 +13,8 @@ import players.Knight;
 
 
 /**
- * Execute ability specific to the Knight players
- * Singleton class implementing the PlayerVisitor interface
+ * Execute ability specific to the Knight players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Execute implements PlayerVisitor {
     private static Execute instance = null;
@@ -140,7 +140,7 @@ public final class Execute implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent
+     * Calculates the total damage by using the victim's opponent.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */

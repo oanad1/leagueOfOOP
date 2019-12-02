@@ -9,8 +9,8 @@ import players.Wizard;
 import players.Knight;
 
 /**
- * Paralysis ability specific to the Rogue players
- * Singleton class implementing the PlayerVisitor interface
+ * Paralysis ability specific to the Rogue players.
+ * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Paralysis implements PlayerVisitor {
     private static Paralysis instance = null;
@@ -25,7 +25,7 @@ public final class Paralysis implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on pyromancer
+     * Apply damage and overtime damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
@@ -36,7 +36,7 @@ public final class Paralysis implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on rogue
+     * Apply damage and overtime damage on rogue.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
@@ -47,7 +47,7 @@ public final class Paralysis implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on wizard
+     * Apply damage and overtime damage on wizard.
      * Also calculates damage without race modifiers.
      * @param wizard victim
      */
@@ -62,7 +62,7 @@ public final class Paralysis implements PlayerVisitor {
     }
 
     /**
-     * Apply damage and overtime damage on knight
+     * Apply damage and overtime damage on knight.
      * @param knight victim
      */
     public void visit(final Knight knight) {
@@ -73,7 +73,7 @@ public final class Paralysis implements PlayerVisitor {
     }
 
     /**
-     * Calculates the total damage and sets overtime and immobilized rounds
+     * Calculates the total damage and sets overtime and immobilized rounds.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
