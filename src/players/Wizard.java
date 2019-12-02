@@ -4,9 +4,13 @@ import abilities.PlayerVisitor;
 import constants.UniversalConstants;
 import constants.WizardConstants;
 
+/**
+ * An implementation of a Wizard player, extension of a Player class
+ */
 public class Wizard extends Player implements Visitable {
 
-    private int unmodifiedDamage;
+    private int unmodifiedDamage;           //Total round damage without race modifiers
+
 
     public Wizard(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
@@ -14,9 +18,11 @@ public class Wizard extends Player implements Visitable {
         this.setPriority(false);
     }
 
+
     public final void accept(final PlayerVisitor visitor) {
         visitor.visit(this);
     }
+
 
     public final void checkLevelUp() {
 
@@ -28,6 +34,7 @@ public class Wizard extends Player implements Visitable {
             this.setLevel(newLevel);
         }
     }
+
 
     public final int getUnmodifiedDamage() {
         return unmodifiedDamage;

@@ -8,6 +8,11 @@ import players.Rogue;
 import players.Wizard;
 import players.Knight;
 
+
+/**
+ * Deflect ability specific to the Wizard players
+ * Singleton class implementing the PlayerVisitor interface
+ */
 public final class Deflect implements PlayerVisitor {
     private static Deflect instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
@@ -20,28 +25,49 @@ public final class Deflect implements PlayerVisitor {
         return instance;
     }
 
+    /**
+     * Applies damage on pyromancer
+     * @param pyromancer victim
+     */
     public void visit(final Pyromancer pyromancer) {
         int damage = Math.round(calculateRawDamage(pyromancer) * WizardConstants.DEFLECT_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on rogue
+     * @param rogue victim
+     */
     public void visit(final Rogue rogue) {
         int damage = Math.round(calculateRawDamage(rogue) * WizardConstants.DEFLECT_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
 
+    /**
+     * Does not apply anything on another wizard
+     * @param wizard
+     */
     public void visit(final Wizard wizard) {
         return;
     }
 
+    /**
+     * Applies damage on knight
+     * @param knight victim
+     */
     public void visit(final Knight knight) {
         int damage = Math.round(calculateRawDamage(knight) * WizardConstants.DEFLECT_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }
 
+    /**
+     * Calculates the total damage by using the victim's opponent and his unmodified damage
+     * @param victim player who is attacked
+     * @return total damage without race modifiers
+     */
     public float calculateRawDamage(final Player victim) {
         Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 

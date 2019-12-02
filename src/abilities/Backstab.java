@@ -8,6 +8,10 @@ import players.Rogue;
 import players.Wizard;
 import players.Knight;
 
+/**
+ * Backstab ability specific to the Rogue players
+ * Singleton class implementing the PlayerVisitor interface
+ */
 public final class Backstab implements PlayerVisitor {
     private static Backstab instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
@@ -20,18 +24,31 @@ public final class Backstab implements PlayerVisitor {
         return instance;
     }
 
+    /**
+     * Applies damage on pyromancer
+     * @param pyromancer victim
+     */
     public void visit(final Pyromancer pyromancer) {
         int damage = Math.round(calculateRawDamage(pyromancer) * RogueConstants.BACKSTAB_MOD_P);
         damage += pyromancer.getRoundDamage();
         pyromancer.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on rogue
+     * @param rogue victim
+     */
     public void visit(final Rogue rogue) {
         int damage = Math.round(calculateRawDamage(rogue) * RogueConstants.BACKSTAB_MOD_R);
         damage += rogue.getRoundDamage();
         rogue.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on wizard
+     * Also calculates unmodified damage
+     * @param wizard victim
+     */
     public void visit(final Wizard wizard) {
         float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
@@ -41,12 +58,21 @@ public final class Backstab implements PlayerVisitor {
         wizard.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on knight
+     * @param knight victim
+     */
     public void visit(final Knight knight) {
         int damage = Math.round(calculateRawDamage(knight) * RogueConstants.BACKSTAB_MOD_K);
         damage += knight.getRoundDamage();
         knight.setRoundDamage(damage);
     }
 
+    /**
+     * Calculates the total damage, applying a critical hit once every 3 fights
+     * @param victim player who is attacked
+     * @return total damage without race modifiers
+     */
     public float calculateRawDamage(final Player victim) {
         Rogue assailant = (Rogue) battlefield.getOpponent(victim);
 

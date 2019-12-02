@@ -4,16 +4,22 @@ import abilities.PlayerVisitor;
 import constants.PyromancerConstants;
 import constants.UniversalConstants;
 
+/**
+ * An implementation of a Pyromancer player, extension of a Player class
+ */
 public class Pyromancer extends Player implements Visitable {
+
 
     public Pyromancer(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
         this.setCurrentHP(PyromancerConstants.BASE_HP);
     }
 
+
     public final void accept(final PlayerVisitor visitor) {
         visitor.visit(this);
     }
+
 
     public final void checkLevelUp() {
 

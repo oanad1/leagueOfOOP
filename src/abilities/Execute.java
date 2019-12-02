@@ -11,6 +11,11 @@ import players.Rogue;
 import players.Wizard;
 import players.Knight;
 
+
+/**
+ * Execute ability specific to the Knight players
+ * Singleton class implementing the PlayerVisitor interface
+ */
 public final class Execute implements PlayerVisitor {
     private static Execute instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
@@ -23,6 +28,11 @@ public final class Execute implements PlayerVisitor {
         return instance;
     }
 
+    /**
+     * Calculates HP limit and determines if instant kill can be applied;
+     * If not, applies normal damage on pyromancer.
+     * @param pyromancer victim
+     */
     public void visit(final Pyromancer pyromancer) {
         float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * pyromancer.getLevel();
 
@@ -46,6 +56,11 @@ public final class Execute implements PlayerVisitor {
     }
 
 
+    /**
+     * Calculates HP limit and determines if instant kill can be applied;
+     * If not, applies normal damage on rogue.
+     * @param rogue victim
+     */
     public void visit(final Rogue rogue) {
         float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * rogue.getLevel();
 
@@ -68,7 +83,12 @@ public final class Execute implements PlayerVisitor {
         rogue.setRoundDamage(damage);
     }
 
-
+    /**
+     * Calculates HP limit and determines if instant kill can be applied;
+     * If not, applies normal damage on wizard.
+     * Also calculates damage without race modifiers.
+     * @param wizard victim
+     */
     public void visit(final Wizard wizard) {
         float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * wizard.getLevel();
 
@@ -94,7 +114,11 @@ public final class Execute implements PlayerVisitor {
         wizard.setRoundDamage(damage);
     }
 
-
+    /**
+     * Calculates HP limit and determines if instant kill can be applied;
+     * If not, applies normal damage on knight.
+     * @param knight victim
+     */
     public void visit(final Knight knight) {
         float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * knight.getLevel();
 
@@ -115,6 +139,11 @@ public final class Execute implements PlayerVisitor {
         knight.setRoundDamage(damage);
     }
 
+    /**
+     * Calculates the total damage by using the victim's opponent
+     * @param victim player who is attacked
+     * @return total damage without race modifiers
+     */
     public float calculateRawDamage(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
 

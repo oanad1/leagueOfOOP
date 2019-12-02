@@ -4,17 +4,24 @@ import abilities.PlayerVisitor;
 import constants.RogueConstants;
 import constants.UniversalConstants;
 
+/**
+ * An implementation of a Rogue player, extension of a Player class
+ */
 public class Rogue extends Player implements Visitable {
-    private int nrBackstabHits = 0;
+
+    private int nrBackstabHits = 0;   //The number of backstab hits applied by this player
+
 
     public Rogue(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
         this.setCurrentHP(RogueConstants.BASE_HP);
     }
 
+
     public final void accept(final PlayerVisitor visitor) {
         visitor.visit(this);
     }
+
 
     public final void checkLevelUp() {
 
@@ -26,6 +33,7 @@ public class Rogue extends Player implements Visitable {
             this.setLevel(newLevel);
         }
     }
+
 
     public final int getNrBackstabHits() {
         return nrBackstabHits;

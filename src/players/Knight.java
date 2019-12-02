@@ -4,6 +4,9 @@ import abilities.PlayerVisitor;
 import constants.KnightConstants;
 import constants.UniversalConstants;
 
+/**
+ * An implementation of a Knight player, extension of a Player class
+ */
 public class Knight extends Player implements Visitable {
 
     public Knight(final int rowPos, final int columnPos, final int id) {
@@ -11,9 +14,11 @@ public class Knight extends Player implements Visitable {
         this.setCurrentHP(KnightConstants.BASE_HP);
     }
 
+
     public final void accept(final PlayerVisitor visitor) {
         visitor.visit(this);
     }
+
 
     public final void checkLevelUp() {
 

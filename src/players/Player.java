@@ -3,18 +3,22 @@ package players;
 import abilities.PlayerVisitor;
 import constants.UniversalConstants;
 
+/**
+ * An abstract class which provides common methods
+ * and information for all players
+ */
 public abstract class Player implements Visitable {
-    private int rowPos;
-    private int columnPos;
-    private int id;
-    private int immobilized = 0;
-    private int currentHP;
-    private int currentXP;
-    private int level;
-    private int roundDamage;
-    private int overtimeRounds = 0;
-    private int overtimeDamage;
-    private boolean priority;
+    private int rowPos;               //The player's row index in the map
+    private int columnPos;            //The player's column index in the map
+    private int id;                   //The player's id in the initial player array
+    private int immobilized = 0;      //The number of rounds left in which the player is immobilized
+    private int currentHP;            //The player's current HP
+    private int currentXP;            //The player's current XP
+    private int level;                //The player's current level
+    private int roundDamage;          //The damage suffered in the current round
+    private int overtimeRounds = 0;   //The number of overtime rounds the player has left
+    private int overtimeDamage;       //The overtime damage
+    private boolean priority;         //Set to true for all players except wizard (applied in case of fight)
 
     public Player(final int rowPosition, final int columnPosition, final int id) {
         this.rowPos = rowPosition;
@@ -25,8 +29,18 @@ public abstract class Player implements Visitable {
         this.roundDamage = 0;
         this.priority = true;
     }
+
+    /**
+     * Abstract method implementing the Visitor pattern
+     * @param visitor the type of action applied to the player
+     * **/
     public abstract void accept(PlayerVisitor visitor);
 
+
+    /**
+     * Method to calculate the player's gained XP as result of a fight
+     * @param opponentLevel the level of the killed opponent
+     * **/
     public final void gainXP(final int opponentLevel) {
 
         if (UniversalConstants.WINNER_XP_BASE - UniversalConstants.WINNER_XP_MULTIPLIER
@@ -36,14 +50,22 @@ public abstract class Player implements Visitable {
         }
     }
 
+    /**
+     * Abstract method to level up a player
+     * **/
     public abstract void checkLevelUp();
 
+
+    /**
+     * A method to check if a player is alive
+     * **/
     public final boolean isAlive() {
         if (this.level == -1) {
             return false;
         }
         return true;
     }
+
 
     public final int getOvertimeRounds() {
         return overtimeRounds;

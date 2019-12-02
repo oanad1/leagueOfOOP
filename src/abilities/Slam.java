@@ -9,7 +9,10 @@ import players.Wizard;
 import players.Knight;
 
 
-
+/**
+ * Slam ability specific to the Knight players
+ * Singleton class implementing the PlayerVisitor interface
+ */
 public final class Slam implements PlayerVisitor {
     private static Slam instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
@@ -22,6 +25,10 @@ public final class Slam implements PlayerVisitor {
         return instance;
     }
 
+    /**
+     * Applies damage on pyromancer and immobilizes him
+     * @param pyromancer victim
+     */
     public void visit(final Pyromancer pyromancer) {
         int damage = Math.round(calculateRawDamage(pyromancer) * KnightConstants.SLAM_MOD_P);
         damage += pyromancer.getRoundDamage();
@@ -29,6 +36,10 @@ public final class Slam implements PlayerVisitor {
         pyromancer.setImmobilized(1);
     }
 
+    /**
+     * Applies damage on rogue and immobilizes him
+     * @param rogue victim
+     */
     public void visit(final Rogue rogue) {
         int damage = Math.round(calculateRawDamage(rogue) * KnightConstants.SLAM_MOD_R);
         damage += rogue.getRoundDamage();
@@ -36,6 +47,11 @@ public final class Slam implements PlayerVisitor {
         rogue.setImmobilized(1);
     }
 
+    /**
+     * Applies damage on wizard and immobilizes him
+     * Also calculates damage without race modifiers
+     * @param wizard victim
+     */
     public void visit(final Wizard wizard) {
         float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
@@ -46,6 +62,10 @@ public final class Slam implements PlayerVisitor {
         wizard.setImmobilized(1);
     }
 
+    /**
+     * Applies damage on knight and immobilizes him
+     * @param knight victim
+     */
     public void visit(final Knight knight) {
         int damage = Math.round(calculateRawDamage(knight) * KnightConstants.SLAM_MOD_K);
         damage += knight.getRoundDamage();
@@ -53,6 +73,11 @@ public final class Slam implements PlayerVisitor {
         knight.setImmobilized(1);
     }
 
+    /**
+     * Calculates the total damage by using the victim's opponent
+     * @param victim player who is attacked
+     * @return total damage without race modifiers
+     */
     public float calculateRawDamage(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
 

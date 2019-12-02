@@ -8,6 +8,10 @@ import players.Rogue;
 import players.Wizard;
 import players.Knight;
 
+/**
+ * Paralysis ability specific to the Rogue players
+ * Singleton class implementing the PlayerVisitor interface
+ */
 public final class Paralysis implements PlayerVisitor {
     private static Paralysis instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
@@ -20,6 +24,10 @@ public final class Paralysis implements PlayerVisitor {
         return instance;
     }
 
+    /**
+     * Apply damage and overtime damage on pyromancer
+     * @param pyromancer victim
+     */
     public void visit(final Pyromancer pyromancer) {
         int damage = Math.round(calculateRawDamage(pyromancer) * RogueConstants.PARALYSIS_MOD_P);
         pyromancer.setOvertimeDamage(damage);
@@ -27,6 +35,10 @@ public final class Paralysis implements PlayerVisitor {
         pyromancer.setRoundDamage(damage);
     }
 
+    /**
+     * Apply damage and overtime damage on rogue
+     * @param rogue victim
+     */
     public void visit(final Rogue rogue) {
         int damage = Math.round(calculateRawDamage(rogue) * RogueConstants.PARALYSIS_MOD_R);
         rogue.setOvertimeDamage(damage);
@@ -34,6 +46,11 @@ public final class Paralysis implements PlayerVisitor {
         rogue.setRoundDamage(damage);
     }
 
+    /**
+     * Apply damage and overtime damage on wizard
+     * Also calculates damage without race modifiers.
+     * @param wizard victim
+     */
     public void visit(final Wizard wizard) {
         float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
@@ -44,6 +61,10 @@ public final class Paralysis implements PlayerVisitor {
         wizard.setRoundDamage(damage);
     }
 
+    /**
+     * Apply damage and overtime damage on knight
+     * @param knight victim
+     */
     public void visit(final Knight knight) {
         int damage = Math.round(calculateRawDamage(knight) * RogueConstants.PARALYSIS_MOD_K);
         knight.setOvertimeDamage(damage);
@@ -51,6 +72,11 @@ public final class Paralysis implements PlayerVisitor {
         knight.setRoundDamage(damage);
     }
 
+    /**
+     * Calculates the total damage and sets overtime and immobilized rounds
+     * @param victim player who is attacked
+     * @return total damage without race modifiers
+     */
     public float calculateRawDamage(final Player victim) {
         Rogue assailant = (Rogue) battlefield.getOpponent(victim);
 

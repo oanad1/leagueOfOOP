@@ -11,6 +11,10 @@ import players.Rogue;
 import players.Wizard;
 import players.Knight;
 
+/**
+ * Drain ability specific to the Wizard players
+ * Singleton class implementing the PlayerVisitor interface
+ */
 public final class Drain implements PlayerVisitor {
     private static Drain instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
@@ -24,7 +28,10 @@ public final class Drain implements PlayerVisitor {
         return instance;
     }
 
-
+    /**
+     * Applies damage on pyromancer based on a procent of its min HP
+     * @param pyromancer victimAppApplyly
+     */
     public void visit(final Pyromancer pyromancer) {
         float procent = calculateRawDamage(pyromancer) * WizardConstants.DRAIN_MOD_P;
         int damage;
@@ -41,6 +48,10 @@ public final class Drain implements PlayerVisitor {
         pyromancer.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on rogue based on a percent of its min HP
+     * @param rogue victim
+     */
     public void visit(final Rogue rogue) {
         float procent = calculateRawDamage(rogue) * WizardConstants.DRAIN_MOD_R;
         int damage;
@@ -57,6 +68,11 @@ public final class Drain implements PlayerVisitor {
         rogue.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on wizard based on a percent of its min HP;
+     * Also calculates damage without race modifiers.
+     * @param wizard victim
+     */
     public void visit(final Wizard wizard) {
         float procent = calculateRawDamage(wizard);
         float unmodDamage;
@@ -75,6 +91,10 @@ public final class Drain implements PlayerVisitor {
         wizard.setRoundDamage(damage);
     }
 
+    /**
+     * Applies damage on knight based on a percent of its min HP
+     * @param knight victim
+     */
     public void visit(final Knight knight) {
         float procent = calculateRawDamage(knight) * WizardConstants.DRAIN_MOD_K;
         int damage;
@@ -91,6 +111,11 @@ public final class Drain implements PlayerVisitor {
         knight.setRoundDamage(damage);
     }
 
+    /**
+     * Calculates the total damage by using the victim's opponent
+     * @param victim player who is attacked
+     * @return total damage without race modifiers
+     */
     public float calculateRawDamage(final Player victim) {
         Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 

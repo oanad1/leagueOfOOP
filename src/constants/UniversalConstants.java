@@ -1,5 +1,8 @@
 package constants;
 
+/**
+ * Constants used by all Players
+ */
 public final class UniversalConstants {
     private UniversalConstants() { }
 

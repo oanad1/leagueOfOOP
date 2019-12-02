@@ -5,6 +5,10 @@ import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
+/**
+ * Interface used for implementing a Visitor Pattern with 4 Visitable types:
+ * Pyromancer, Rogue, Wizard and Knight
+ */
 public interface PlayerVisitor {
     void visit(Pyromancer pyromancer);
 
