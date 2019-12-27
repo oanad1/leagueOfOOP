@@ -1,6 +1,6 @@
 package players;
 
-import abilities.PlayerVisitor;
+import abilities.AbilityVisitor;
 import constants.UniversalConstants;
 
 /**
@@ -19,6 +19,8 @@ public abstract class Player implements Visitable {
     private int overtimeRounds = 0;   //The number of overtime rounds the player has left
     private int overtimeDamage;       //The overtime damage
     private boolean priority;         //Set to true for all players except wizard
+    private boolean dead;
+    private float angelModifier;
 
     public Player(final int rowPosition, final int columnPosition, final int id) {
         this.rowPos = rowPosition;
@@ -28,13 +30,14 @@ public abstract class Player implements Visitable {
         this.level = 0;
         this.roundDamage = 0;
         this.priority = true;
+        this.dead = false;
     }
 
     /**
      * Abstract method implementing the Visitor pattern.
      * @param visitor the type of action applied to the player
      * **/
-    public abstract void accept(PlayerVisitor visitor);
+    public abstract void accept(AbilityVisitor visitor);
 
 
     /**
@@ -54,18 +57,6 @@ public abstract class Player implements Visitable {
      * Abstract method to level up a player.
      * **/
     public abstract void checkLevelUp();
-
-
-    /**
-     * A method to check if a player is alive.
-     * **/
-    public final boolean isAlive() {
-        if (this.level == -1) {
-            return false;
-        }
-        return true;
-    }
-
 
     public final int getOvertimeRounds() {
         return overtimeRounds;
@@ -153,5 +144,21 @@ public abstract class Player implements Visitable {
 
     public final void setOvertimeDamage(final int overtimeDamage) {
         this.overtimeDamage = overtimeDamage;
+    }
+
+    public float getAngelModifier() {
+        return angelModifier;
+    }
+
+    public void setAngelModifier(float angelModifier) {
+        this.angelModifier = angelModifier;
+    }
+
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
     }
 }
