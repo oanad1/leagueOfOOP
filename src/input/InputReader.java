@@ -53,10 +53,28 @@ public final class InputReader {
             moves.add(fileReader.nextWord());
         }
 
-        fileReader.close();
-
         //Create an object which stores the players and moves arrays
         GameInfo gameInfo = new GameInfo(players, moves);
+
+        int nrAngelsRound;
+        String angelString;
+        ArrayList<GameInfo.Angel> angelsInRound = new ArrayList<>();
+
+        for(int i=0; i < nrRounds; i++) {
+            nrAngelsRound = fileReader.nextInt();
+            for(int j=0; j < nrAngelsRound; j++) {
+
+                angelString = fileReader.nextWord();
+                String[] angelData = angelString.split(",");
+                angelsInRound.add(new GameInfo.Angel(Integer.parseInt(angelData[1]), Integer.parseInt(angelData[2]),
+                        AngelsFactory.getAngel(angelData[0])));
+
+            }
+            gameInfo.addAngelsRound(i,angelsInRound);
+            angelsInRound.clear();
+        }
+
+        fileReader.close();
         return gameInfo;
     }
 }
