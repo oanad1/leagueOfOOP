@@ -1,11 +1,21 @@
 package constants;
 
+import input.Battlefield;
+
 /**
  * Constants used by the Knight Players.
  */
-public final class KnightConstants {
+public final class KnightConstants{
+
+    private static KnightConstants instance = null;
 
     private KnightConstants() { }
+    public static KnightConstants getInstance() {
+        if (instance == null) {
+            instance = new KnightConstants();
+        }
+        return instance;
+    }
 
     public static final int BASE_HP = 900;
     public static final int LEVEL_HP = 80;
@@ -17,6 +27,7 @@ public final class KnightConstants {
     public static final float EXECUTE_INSTANT_LEVEL_PERCENT = 0.01f;
     public static final float EXECUTE_INSTANT_LEVEL_MAX_PERCENT = 0.4f;
     public static final float EXECUTE_MOD_R = 1.15f;
+    public static final float EXECUTE_MOD_K = 0;
     public static final float EXECUTE_MOD_P = 1.1f;
     public static final float EXECUTE_MOD_W = 0.8f;
 
@@ -31,5 +42,13 @@ public final class KnightConstants {
     //LAND
     public static final char LAND_TYPE = 'L';
     public static final float LAND_TYPE_BONUS = 1.15f;
+
+    //STRATEGY
+    public static final float LOW_LIMIT_FRAC = 1/3f;
+    public static final float UP_LIMIT_FRAC = 1/2f;
+    public static final float ATTACK_HP_FRAC = 1/5f;
+    public static final float ATTACK_COEF = 0.5f;
+    public static final float DEFENSE_HP_FRAC = 1/4f;
+    public static final float DEFENSE_COEF = 0.2f;
 
 }

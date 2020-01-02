@@ -1,12 +1,21 @@
 package constants;
 
+import input.Battlefield;
+
 /**
  * Constants used by the Rogue Players.
  */
 public final class RogueConstants {
 
-    private RogueConstants() { }
+    private static RogueConstants instance = null;
 
+    private RogueConstants() { }
+    public static RogueConstants getInstance() {
+        if (instance == null) {
+            instance = new RogueConstants();
+        }
+        return instance;
+    }
 
     public static final int BASE_HP = 600;
     public static final int LEVEL_HP = 40;
@@ -34,5 +43,13 @@ public final class RogueConstants {
     //LAND
     public static final char LAND_TYPE = 'W';
     public static final float LAND_TYPE_BONUS = 1.15f;
+
+    //STRATEGY
+    public static final float LOW_LIMIT_FRAC = 1/7f;
+    public static final float UP_LIMIT_FRAC = 1/5f;
+    public static final float ATTACK_HP_FRAC = 1/7f;
+    public static final float ATTACK_COEF = 0.4f;
+    public static final float DEFENSE_HP_FRAC = 1/2f;
+    public static final float DEFENSE_COEF = 0.1f;
 
 }

@@ -1,11 +1,21 @@
 package constants;
 
+import input.Battlefield;
+
 /**
  * Constants used by the Wizard Players.
  */
 public final class WizardConstants {
 
+    private static WizardConstants instance = null;
+
     private WizardConstants() { }
+    public static WizardConstants getInstance() {
+        if (instance == null) {
+            instance = new WizardConstants();
+        }
+        return instance;
+    }
 
     public static final int BASE_HP = 400;
     public static final int LEVEL_HP = 30;
@@ -26,8 +36,18 @@ public final class WizardConstants {
     public static final float DEFLECT_MOD_R = 1.2f;
     public static final float DEFLECT_MOD_K = 1.4f;
     public static final float DEFLECT_MOD_P = 1.3f;
+    public static final float DEFLECT_MOD_W = 0;
 
     //LAND
     public static final char LAND_TYPE = 'D';
     public static final float LAND_TYPE_BONUS = 1.1f;
+
+
+    //STRATEGY
+    public static final float LOW_LIMIT_FRAC = 1/4f;
+    public static final float UP_LIMIT_FRAC = 1/2f;
+    public static final float ATTACK_HP_FRAC = 1/10f;
+    public static final float ATTACK_COEF = 0.6f;
+    public static final float DEFENSE_HP_FRAC = 1/5f;
+    public static final float DEFENSE_COEF = 0.2f;
 }
