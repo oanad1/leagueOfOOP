@@ -5,17 +5,14 @@ import constants.PyromancerConstants;
 import constants.RogueConstants;
 import constants.WizardConstants;
 import input.Battlefield;
-import players.Player;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
-import players.Knight;
+import main.PlayersVisitor;
+import players.*;
 
 /**
  * Drain ability specific to the Wizard players.
  * Singleton class implementing the PlayerVisitor interface.
  */
-public final class Drain implements PlayerVisitor {
+public final class Drain implements PlayersVisitor {
     private static Drain instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
 
@@ -33,19 +30,11 @@ public final class Drain implements PlayerVisitor {
      * @param pyromancer victimAppApplyly
      */
     public void visit(final Pyromancer pyromancer) {
-        float procent = calculateRawDamage(pyromancer) * WizardConstants.DRAIN_MOD_P;
-        int damage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP
+        float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP
                 + PyromancerConstants.LEVEL_HP * pyromancer.getLevel());
 
-        if (oppMax < pyromancer.getCurrentHP()) {
-            damage = Math.round(procent *  oppMax);
-        } else {
-            damage = Math.round(procent *  pyromancer.getCurrentHP());
-        }
-
-        damage += pyromancer.getRoundDamage();
-        pyromancer.setRoundDamage(damage);
+        float raceModifier = WizardConstants.DRAIN_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
+        calculateTotalDamage(pyromancer,raceModifier, oppMaxHP);
     }
 
     /**
@@ -53,19 +42,11 @@ public final class Drain implements PlayerVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float procent = calculateRawDamage(rogue) * WizardConstants.DRAIN_MOD_R;
-        int damage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP
+        float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP
                 + RogueConstants.LEVEL_HP * rogue.getLevel());
 
-        if (oppMax < rogue.getCurrentHP()) {
-            damage = Math.round(procent *  oppMax);
-        } else {
-            damage = Math.round(procent *  rogue.getCurrentHP());
-        }
-
-        damage += rogue.getRoundDamage();
-        rogue.setRoundDamage(damage);
+        float raceModifier = WizardConstants.DRAIN_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
+        calculateTotalDamage(rogue,raceModifier, oppMaxHP);
     }
 
     /**
@@ -74,7 +55,7 @@ public final class Drain implements PlayerVisitor {
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float procent = calculateRawDamage(wizard);
+        float procent = calculatePercent(wizard,1);
         float unmodDamage;
         float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP
                 + WizardConstants.LEVEL_HP * wizard.getLevel());
@@ -86,7 +67,7 @@ public final class Drain implements PlayerVisitor {
         }
 
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
-        int damage = Math.round(unmodDamage * WizardConstants.DRAIN_MOD_W);
+        int damage = Math.round(unmodDamage * (WizardConstants.DRAIN_MOD_W + battlefield.getOpponent(wizard).getAngelModifier()));
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
@@ -96,19 +77,10 @@ public final class Drain implements PlayerVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float procent = calculateRawDamage(knight) * WizardConstants.DRAIN_MOD_K;
-        int damage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP
+        float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP
                 + KnightConstants.LEVEL_HP * knight.getLevel());
-
-        if (oppMax < knight.getCurrentHP()) {
-            damage = Math.round(procent *  oppMax);
-        } else {
-            damage = Math.round(procent *  knight.getCurrentHP());
-        }
-
-        damage += knight.getRoundDamage();
-        knight.setRoundDamage(damage);
+        float raceModifier = WizardConstants.DRAIN_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
+        calculateTotalDamage(knight,raceModifier,oppMaxHP);
     }
 
     /**
@@ -116,14 +88,31 @@ public final class Drain implements PlayerVisitor {
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculateRawDamage(final Player victim) {
+    public float calculatePercent(final Player victim, float raceModifier) {
         Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 
-        float damage = WizardConstants.DRAIN_BASE_PROCENT
+        float percent = WizardConstants.DRAIN_BASE_PROCENT
                 + WizardConstants.DRAIN_LEVEL_PROCENT * assailant.getLevel();
-        if (battlefield.getLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
-            damage *= WizardConstants.LAND_TYPE_BONUS;
+        percent *= raceModifier;
+        if (battlefield.getPlayerLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
+            percent *= WizardConstants.LAND_TYPE_BONUS;
         }
-        return damage;
+        return percent;
     }
+
+    public void calculateTotalDamage(final Player victim, final float raceModifier, float oppMaxHP) {
+
+        float percent = calculatePercent(victim,raceModifier);
+        int damage;
+
+        if (oppMaxHP < victim.getCurrentHP()) {
+            damage = Math.round(percent *  oppMaxHP);
+        } else {
+            damage = Math.round(percent *  victim.getCurrentHP());
+        }
+
+        damage += victim.getRoundDamage();
+        victim.setRoundDamage(damage);
+    }
+
 }

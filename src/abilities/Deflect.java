@@ -1,19 +1,17 @@
 package abilities;
 
+import constants.RogueConstants;
 import constants.WizardConstants;
 import input.Battlefield;
-import players.Player;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
-import players.Knight;
+import main.PlayersVisitor;
+import players.*;
 
 
 /**
  * Deflect ability specific to the Wizard players.
  * Singleton class implementing the PlayerVisitor interface.
  */
-public final class Deflect implements PlayerVisitor {
+public final class Deflect implements PlayersVisitor {
     private static Deflect instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
 
@@ -30,9 +28,8 @@ public final class Deflect implements PlayerVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        int damage = Math.round(calculateRawDamage(pyromancer) * WizardConstants.DEFLECT_MOD_P);
-        damage += pyromancer.getRoundDamage();
-        pyromancer.setRoundDamage(damage);
+        float raceModifier = WizardConstants.DEFLECT_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
+        calculateTotalDamage(pyromancer,raceModifier);
     }
 
     /**
@@ -40,9 +37,8 @@ public final class Deflect implements PlayerVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        int damage = Math.round(calculateRawDamage(rogue) * WizardConstants.DEFLECT_MOD_R);
-        damage += rogue.getRoundDamage();
-        rogue.setRoundDamage(damage);
+        float raceModifier = WizardConstants.DEFLECT_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
+        calculateTotalDamage(rogue,raceModifier);
     }
 
     /**
@@ -58,9 +54,8 @@ public final class Deflect implements PlayerVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        int damage = Math.round(calculateRawDamage(knight) * WizardConstants.DEFLECT_MOD_K);
-        damage += knight.getRoundDamage();
-        knight.setRoundDamage(damage);
+        float raceModifier = WizardConstants.DEFLECT_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
+        calculateTotalDamage(knight,raceModifier);
     }
 
     /**
@@ -78,9 +73,15 @@ public final class Deflect implements PlayerVisitor {
         }
         float damage = percent * assailant.getUnmodifiedDamage();
 
-        if (battlefield.getLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
+        if (battlefield.getPlayerLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
             damage *= WizardConstants.LAND_TYPE_BONUS;
         }
         return damage;
+    }
+
+    public void calculateTotalDamage(final Player victim, final float raceModifier) {
+        int damage = Math.round(calculateRawDamage(victim) * raceModifier);
+        damage += victim.getRoundDamage();
+        victim.setRoundDamage(damage);
     }
 }

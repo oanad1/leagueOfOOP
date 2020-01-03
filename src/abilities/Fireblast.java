@@ -2,18 +2,15 @@ package abilities;
 
 import constants.PyromancerConstants;
 import input.Battlefield;
-import players.Player;
-import players.Pyromancer;
-import players.Rogue;
-import players.Wizard;
-import players.Knight;
+import main.PlayersVisitor;
+import players.*;
 
 
 /**
  * Ignote ability specific to the Pyromancer players.
  * Singleton class implementing the PlayerVisitor interface.
  */
-public final class Fireblast implements PlayerVisitor {
+public final class Fireblast implements PlayersVisitor {
     private static Fireblast instance = null;
     private Battlefield battlefield = Battlefield.getInstance();
 
@@ -29,10 +26,8 @@ public final class Fireblast implements PlayerVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        int damage = Math.round(calculateRawDamage(pyromancer)
-                * PyromancerConstants.FIREBLAST_MOD_P);
-        damage += pyromancer.getRoundDamage();
-        pyromancer.setRoundDamage(damage);
+        float raceModifier = PyromancerConstants.FIREBLAST_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
+        calculateTotalDamage(pyromancer,raceModifier);
     }
 
     /**
@@ -40,9 +35,8 @@ public final class Fireblast implements PlayerVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        int damage = Math.round(calculateRawDamage(rogue) * PyromancerConstants.FIREBLAST_MOD_R);
-        damage += rogue.getRoundDamage();
-        rogue.setRoundDamage(damage);
+        float raceModifier = PyromancerConstants.FIREBLAST_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
+        calculateTotalDamage(rogue,raceModifier);
     }
 
     /**
@@ -54,9 +48,8 @@ public final class Fireblast implements PlayerVisitor {
         float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
-        int damage = Math.round(unmodDamage * PyromancerConstants.FIREBLAST_MOD_W);
-        damage += wizard.getRoundDamage();
-        wizard.setRoundDamage(damage);
+        float raceModifier = PyromancerConstants.FIREBLAST_MOD_W + battlefield.getOpponent(wizard).getAngelModifier();
+        calculateTotalDamage(wizard,raceModifier);
     }
 
     /**
@@ -64,9 +57,8 @@ public final class Fireblast implements PlayerVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        int damage = Math.round(calculateRawDamage(knight) * PyromancerConstants.FIREBLAST_MOD_K);
-        damage += knight.getRoundDamage();
-        knight.setRoundDamage(damage);
+        float raceModifier = PyromancerConstants.FIREBLAST_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
+        calculateTotalDamage(knight,raceModifier);
     }
 
     /**
@@ -78,9 +70,15 @@ public final class Fireblast implements PlayerVisitor {
         Player assailant = battlefield.getOpponent(victim);
         float damage = PyromancerConstants.FIREBLAST_BASE_DAMAGE
                 + PyromancerConstants.FIREBLAST_LEVEL_DAMAGE * assailant.getLevel();
-        if (battlefield.getLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE) {
+        if (battlefield.getPlayerLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE) {
             damage *= PyromancerConstants.LAND_TYPE_BONUS;
         }
         return damage;
+    }
+
+    public void calculateTotalDamage(final Player victim, final float raceModifier) {
+        int damage = Math.round(calculateRawDamage(victim) * raceModifier);
+        damage += victim.getRoundDamage();
+        victim.setRoundDamage(damage);
     }
 }
