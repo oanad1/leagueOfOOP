@@ -6,7 +6,11 @@ import constants.RogueConstants;
 import constants.WizardConstants;
 import input.Battlefield;
 import main.PlayersVisitor;
-import players.*;
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
 /**
  * Drain ability specific to the Wizard players.
@@ -33,8 +37,9 @@ public final class Drain implements PlayersVisitor {
         float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP
                 + PyromancerConstants.LEVEL_HP * pyromancer.getLevel());
 
-        float raceModifier = WizardConstants.DRAIN_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
-        calculateTotalDamage(pyromancer,raceModifier, oppMaxHP);
+        float raceModifier = WizardConstants.DRAIN_MOD_P
+                + battlefield.getOpponent(pyromancer).getAngelModifier();
+        calculateTotalDamage(pyromancer, raceModifier, oppMaxHP);
     }
 
     /**
@@ -45,8 +50,9 @@ public final class Drain implements PlayersVisitor {
         float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP
                 + RogueConstants.LEVEL_HP * rogue.getLevel());
 
-        float raceModifier = WizardConstants.DRAIN_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
-        calculateTotalDamage(rogue,raceModifier, oppMaxHP);
+        float raceModifier = WizardConstants.DRAIN_MOD_R
+                + battlefield.getOpponent(rogue).getAngelModifier();
+        calculateTotalDamage(rogue, raceModifier, oppMaxHP);
     }
 
     /**
@@ -55,7 +61,7 @@ public final class Drain implements PlayersVisitor {
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float procent = calculatePercent(wizard,1);
+        float procent = calculatePercent(wizard, 1);
         float unmodDamage;
         float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP
                 + WizardConstants.LEVEL_HP * wizard.getLevel());
@@ -67,7 +73,8 @@ public final class Drain implements PlayersVisitor {
         }
 
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
-        int damage = Math.round(unmodDamage * (WizardConstants.DRAIN_MOD_W + battlefield.getOpponent(wizard).getAngelModifier()));
+        int damage = Math.round(unmodDamage * (WizardConstants.DRAIN_MOD_W
+                + battlefield.getOpponent(wizard).getAngelModifier()));
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
@@ -79,8 +86,9 @@ public final class Drain implements PlayersVisitor {
     public void visit(final Knight knight) {
         float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP
                 + KnightConstants.LEVEL_HP * knight.getLevel());
-        float raceModifier = WizardConstants.DRAIN_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
-        calculateTotalDamage(knight,raceModifier,oppMaxHP);
+        float raceModifier = WizardConstants.DRAIN_MOD_K
+                + battlefield.getOpponent(knight).getAngelModifier();
+        calculateTotalDamage(knight, raceModifier, oppMaxHP);
     }
 
     /**
@@ -88,7 +96,7 @@ public final class Drain implements PlayersVisitor {
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculatePercent(final Player victim, float raceModifier) {
+    public float calculatePercent(final Player victim, final float raceModifier) {
         Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 
         float percent = WizardConstants.DRAIN_BASE_PROCENT
@@ -100,9 +108,10 @@ public final class Drain implements PlayersVisitor {
         return percent;
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier, float oppMaxHP) {
+    public void calculateTotalDamage(final Player victim, final float raceModifier,
+                                     final float oppMaxHP) {
 
-        float percent = calculatePercent(victim,raceModifier);
+        float percent = calculatePercent(victim, raceModifier);
         int damage;
 
         if (oppMaxHP < victim.getCurrentHP()) {

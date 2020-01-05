@@ -3,7 +3,11 @@ package abilities;
 import constants.RogueConstants;
 import input.Battlefield;
 import main.PlayersVisitor;
-import players.*;
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
 /**
  * Paralysis ability specific to the Rogue players.
@@ -26,8 +30,9 @@ public final class Paralysis implements PlayersVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifier = RogueConstants.PARALYSIS_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
-        calculateTotalDamage(pyromancer,raceModifier);
+        float raceModifier = RogueConstants.PARALYSIS_MOD_P
+                + battlefield.getOpponent(pyromancer).getAngelModifier();
+        calculateTotalDamage(pyromancer, raceModifier);
     }
 
     /**
@@ -35,8 +40,9 @@ public final class Paralysis implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifier = RogueConstants.PARALYSIS_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
-        calculateTotalDamage(rogue,raceModifier);
+        float raceModifier = RogueConstants.PARALYSIS_MOD_R
+                + battlefield.getOpponent(rogue).getAngelModifier();
+        calculateTotalDamage(rogue, raceModifier);
     }
 
     /**
@@ -48,8 +54,9 @@ public final class Paralysis implements PlayersVisitor {
         float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
 
-        float raceModifier = RogueConstants.PARALYSIS_MOD_W + battlefield.getOpponent(wizard).getAngelModifier();
-        calculateTotalDamage(wizard,raceModifier);
+        float raceModifier = RogueConstants.PARALYSIS_MOD_W
+                + battlefield.getOpponent(wizard).getAngelModifier();
+        calculateTotalDamage(wizard, raceModifier);
     }
 
     /**
@@ -57,8 +64,9 @@ public final class Paralysis implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifier = RogueConstants.PARALYSIS_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
-        calculateTotalDamage(knight,raceModifier);
+        float raceModifier = RogueConstants.PARALYSIS_MOD_K
+                + battlefield.getOpponent(knight).getAngelModifier();
+        calculateTotalDamage(knight, raceModifier);
     }
 
     /**
@@ -74,10 +82,10 @@ public final class Paralysis implements PlayersVisitor {
 
         if (battlefield.getPlayerLot(assailant).getLandType() == RogueConstants.LAND_TYPE) {
             damage *= RogueConstants.LAND_TYPE_BONUS;
-            victim.setImmobilized(RogueConstants.PARALYSIS_OVERTIME_WOODS);
+            victim.setImmobilized(RogueConstants.PARALYSIS_OVERTIME_WOODS + 1);
             victim.setOvertimeRounds(RogueConstants.PARALYSIS_OVERTIME_WOODS);
         } else {
-            victim.setImmobilized(RogueConstants.PARALYSIS_OVERTIME);
+            victim.setImmobilized(RogueConstants.PARALYSIS_OVERTIME + 1);
             victim.setOvertimeRounds(RogueConstants.PARALYSIS_OVERTIME);
         }
         return damage;

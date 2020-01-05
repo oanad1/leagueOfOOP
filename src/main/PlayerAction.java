@@ -1,7 +1,6 @@
 package main;
 
-import abilities.FightMode;
-import constants.UniversalConstants;
+import abilities.Fight;
 import input.Battlefield;
 import players.Player;
 
@@ -27,9 +26,7 @@ public final class PlayerAction {
         int columnPos = player.getcolumnPos();
 
         //If the player is immobilized, decrease its number of rounds left
-        if (player.getImmobilized() != 0) {
-            int imRounds = player.getImmobilized() - 1;
-            player.setImmobilized(imRounds);
+        if (player.isImmobilized() > 0) {
             return;
         }
 
@@ -57,6 +54,8 @@ public final class PlayerAction {
         }
 
         //Add the player back on the battlefield
+        if(player.getcolumnPos() < battlefield.getNrCols() && player.getrowPos() < battlefield.getNrRows() &&
+        player.getrowPos() >= 0 && player.getcolumnPos() >= 0)
         battlefield.addPlayer(player);
     }
 
@@ -66,11 +65,11 @@ public final class PlayerAction {
      * @param player player who is supposed to fight
      * **/
     public static void fight(final Player player) {
-         Battlefield.Lot lot = battlefield.getLot(player);
+         Battlefield.Lot lot = battlefield.getPlayerLot(player);
 
          //The fight happens only if the player is not alone on his Lot
-         if (lot.getOccupants().size() == 2) {
-             player.accept(FightMode.getInstance());
+         if ( lot != null && lot.getOccupants().size() > 1) {
+             player.accept(Fight.getInstance());
          }
     }
 
@@ -92,18 +91,11 @@ public final class PlayerAction {
     public static void checkDeath(final Player player) {
 
         //Ignore players who were already dead before
-        if (player.getCurrentHP() <= 0 && player.getLevel() > -1) {
-            Battlefield.Lot lot = battlefield.getLot(player);
-
-            //If the player died as a result of a fight, its opponent receives XP
-            if (lot.getOccupants().size() > 1) {
-                Player opponent = battlefield.getOpponent(player);
-                opponent.gainXP(player.getLevel());
-            }
+        if (player.getCurrentHP() < 0 && !player.isDead()) {
 
             //Player is removed from the map and marked as dead
-            player.setLevel(UniversalConstants.DEAD);
-            battlefield.removePlayer(player);
+            player.setDead(true);
+            //battlefield.removePlayer(player);
         }
     }
 }

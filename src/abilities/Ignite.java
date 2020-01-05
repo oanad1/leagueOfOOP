@@ -3,8 +3,11 @@ package abilities;
 import constants.PyromancerConstants;
 import input.Battlefield;
 import main.PlayersVisitor;
-import players.*;
-
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
 /**
  * Ignite ability specific to the Pyromancer players.
@@ -28,8 +31,9 @@ public final class Ignite implements PlayersVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifier = PyromancerConstants.IGNITE_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
-        calculateTotalDamage(pyromancer,raceModifier);
+        float raceModifier = PyromancerConstants.IGNITE_MOD_P
+                + battlefield.getOpponent(pyromancer).getAngelModifier();
+        calculateTotalDamage(pyromancer, raceModifier);
     }
 
     /**
@@ -37,8 +41,9 @@ public final class Ignite implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifier = PyromancerConstants.IGNITE_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
-        calculateTotalDamage(rogue,raceModifier);
+        float raceModifier = PyromancerConstants.IGNITE_MOD_R
+                + battlefield.getOpponent(rogue).getAngelModifier();
+        calculateTotalDamage(rogue, raceModifier);
     }
 
     /**
@@ -49,8 +54,9 @@ public final class Ignite implements PlayersVisitor {
         float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
 
-        float raceModifier = PyromancerConstants.IGNITE_MOD_W + battlefield.getOpponent(wizard).getAngelModifier();
-        calculateTotalDamage(wizard,raceModifier);
+        float raceModifier = PyromancerConstants.IGNITE_MOD_W
+                + battlefield.getOpponent(wizard).getAngelModifier();
+        calculateTotalDamage(wizard, raceModifier);
     }
 
     /**
@@ -58,8 +64,9 @@ public final class Ignite implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifier = PyromancerConstants.IGNITE_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
-        calculateTotalDamage(knight,raceModifier);
+        float raceModifier = PyromancerConstants.IGNITE_MOD_K
+                + battlefield.getOpponent(knight).getAngelModifier();
+        calculateTotalDamage(knight, raceModifier);
     }
 
     /**
@@ -67,7 +74,7 @@ public final class Ignite implements PlayersVisitor {
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculateRawDamage(final Player victim) {
+    public int calculateRawDamage(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
         Fight fight = Fight.getInstance();
         float damage;
@@ -78,7 +85,7 @@ public final class Ignite implements PlayersVisitor {
         if (battlefield.getPlayerLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE) {
             damage *= PyromancerConstants.LAND_TYPE_BONUS;
         }
-        return damage;
+        return Math.round(damage);
     }
 
     /**
@@ -97,7 +104,7 @@ public final class Ignite implements PlayersVisitor {
         if (battlefield.getPlayerLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE) {
             damage *= PyromancerConstants.LAND_TYPE_BONUS;
         }
-        return damage;
+        return Math.round(damage);
     }
 
     public void calculateTotalDamage(final Player victim, final float raceModifier) {
