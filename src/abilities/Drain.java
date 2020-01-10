@@ -13,7 +13,7 @@ import players.Knight;
 import players.Wizard;
 
 /**
- * Drain ability specific to the Wizard players.
+ * Drain ability specific to Wizard players.
  * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Drain implements PlayersVisitor {
@@ -31,14 +31,13 @@ public final class Drain implements PlayersVisitor {
 
     /**
      * Applies damage on pyromancer based on a procent of its min HP.
-     * @param pyromancer victimAppApplyly
+     * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP
+        Float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (PyromancerConstants.BASE_HP
                 + PyromancerConstants.LEVEL_HP * pyromancer.getLevel());
 
-        float raceModifier = WizardConstants.DRAIN_MOD_P
-                + battlefield.getOpponent(pyromancer).getAngelModifier();
+        Float raceModifier = WizardConstants.DRAIN_MOD_P;
         calculateTotalDamage(pyromancer, raceModifier, oppMaxHP);
     }
 
@@ -47,23 +46,22 @@ public final class Drain implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP
+        Float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (RogueConstants.BASE_HP
                 + RogueConstants.LEVEL_HP * rogue.getLevel());
 
-        float raceModifier = WizardConstants.DRAIN_MOD_R
-                + battlefield.getOpponent(rogue).getAngelModifier();
+        Float raceModifier = WizardConstants.DRAIN_MOD_R;
         calculateTotalDamage(rogue, raceModifier, oppMaxHP);
     }
 
     /**
      * Applies damage on wizard based on a percent of its min HP;
-     * Also calculates damage without race modifiers.
+     * Calculates unmodified damage for wizard.
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float procent = calculatePercent(wizard, 1);
-        float unmodDamage;
-        float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP
+        Float procent = calculatePercent(wizard, 1f);
+        Float unmodDamage;
+        Float oppMax = WizardConstants.DRAIN_OPP_MAX_PROCENT * (WizardConstants.BASE_HP
                 + WizardConstants.LEVEL_HP * wizard.getLevel());
 
         if (oppMax < wizard.getCurrentHP()) {
@@ -73,8 +71,11 @@ public final class Drain implements PlayersVisitor {
         }
 
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
-        int damage = Math.round(unmodDamage * (WizardConstants.DRAIN_MOD_W
-                + battlefield.getOpponent(wizard).getAngelModifier()));
+        Float raceModifier = WizardConstants.DRAIN_MOD_W;
+        for (Float bonusMod: battlefield.getOpponent(wizard).getBonusModifiers()) {
+            raceModifier += bonusMod;
+        }
+        int damage = Math.round(unmodDamage * raceModifier);
         damage += wizard.getRoundDamage();
         wizard.setRoundDamage(damage);
     }
@@ -84,10 +85,9 @@ public final class Drain implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP
+        Float oppMaxHP = WizardConstants.DRAIN_OPP_MAX_PROCENT * (KnightConstants.BASE_HP
                 + KnightConstants.LEVEL_HP * knight.getLevel());
-        float raceModifier = WizardConstants.DRAIN_MOD_K
-                + battlefield.getOpponent(knight).getAngelModifier();
+        Float raceModifier = WizardConstants.DRAIN_MOD_K;
         calculateTotalDamage(knight, raceModifier, oppMaxHP);
     }
 
@@ -96,10 +96,10 @@ public final class Drain implements PlayersVisitor {
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculatePercent(final Player victim, final float raceModifier) {
+    public Float calculatePercent(final Player victim, final Float raceModifier) {
         Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 
-        float percent = WizardConstants.DRAIN_BASE_PROCENT
+        Float percent = WizardConstants.DRAIN_BASE_PROCENT
                 + WizardConstants.DRAIN_LEVEL_PROCENT * assailant.getLevel();
         percent *= raceModifier;
         if (battlefield.getPlayerLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
@@ -108,10 +108,23 @@ public final class Drain implements PlayersVisitor {
         return percent;
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier,
-                                     final float oppMaxHP) {
+    /**
+     * Sets the total damage with race modifiers.
+     * @param victim player who is attacked
+     * @param raceMod race modifier specific to the victim
+     * @param oppMaxHP 0.3 * victim max HP
+     * @return total damage with race modifiers
+     */
+    public void calculateTotalDamage(final Player victim, final Float raceMod,
+                                     final Float oppMaxHP) {
+        Float raceModifier = raceMod;
 
-        float percent = calculatePercent(victim, raceModifier);
+        //Add angel and strategy bonuses to the land modifiers
+        for (Float bonusMod: battlefield.getOpponent(victim).getBonusModifiers()) {
+            raceModifier += bonusMod;
+        }
+
+        Float percent = calculatePercent(victim, raceModifier);
         int damage;
 
         if (oppMaxHP < victim.getCurrentHP()) {

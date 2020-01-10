@@ -10,7 +10,7 @@ import players.Knight;
 import players.Wizard;
 
 /**
- * Ignite ability specific to the Pyromancer players.
+ * Ignite ability specific to Pyromancer players.
  * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Ignite implements PlayersVisitor {
@@ -25,14 +25,12 @@ public final class Ignite implements PlayersVisitor {
         return instance;
     }
 
-
     /**
      * Apply damage and overtime damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifier = PyromancerConstants.IGNITE_MOD_P
-                + battlefield.getOpponent(pyromancer).getAngelModifier();
+        Float raceModifier = PyromancerConstants.IGNITE_MOD_P;
         calculateTotalDamage(pyromancer, raceModifier);
     }
 
@@ -41,8 +39,7 @@ public final class Ignite implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifier = PyromancerConstants.IGNITE_MOD_R
-                + battlefield.getOpponent(rogue).getAngelModifier();
+        Float raceModifier = PyromancerConstants.IGNITE_MOD_R;
         calculateTotalDamage(rogue, raceModifier);
     }
 
@@ -51,11 +48,10 @@ public final class Ignite implements PlayersVisitor {
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float unmodDamage = calculateRawDamage(wizard);
+        Float unmodDamage = (float) calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
 
-        float raceModifier = PyromancerConstants.IGNITE_MOD_W
-                + battlefield.getOpponent(wizard).getAngelModifier();
+        Float raceModifier = PyromancerConstants.IGNITE_MOD_W;
         calculateTotalDamage(wizard, raceModifier);
     }
 
@@ -64,8 +60,7 @@ public final class Ignite implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifier = PyromancerConstants.IGNITE_MOD_K
-                + battlefield.getOpponent(knight).getAngelModifier();
+        Float raceModifier = PyromancerConstants.IGNITE_MOD_K;
         calculateTotalDamage(knight, raceModifier);
     }
 
@@ -76,11 +71,10 @@ public final class Ignite implements PlayersVisitor {
      */
     public int calculateRawDamage(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
-        Fight fight = Fight.getInstance();
-        float damage;
+        Float damage;
 
-            damage = PyromancerConstants.IGNITE_BASE_DAMAGE
-                    + PyromancerConstants.IGNITE_LEVEL_DAMAGE * assailant.getLevel();
+            damage = (float) (PyromancerConstants.IGNITE_BASE_DAMAGE
+                    + PyromancerConstants.IGNITE_LEVEL_DAMAGE * assailant.getLevel());
 
         if (battlefield.getPlayerLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE) {
             damage *= PyromancerConstants.LAND_TYPE_BONUS;
@@ -93,13 +87,12 @@ public final class Ignite implements PlayersVisitor {
      * @param victim player who is attacked
      * @return total overtime damage without race modifiers
      */
-    public float calculateOvertime(final Player victim) {
+    public int calculateOvertime(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
-        Fight fight = Fight.getInstance();
-        float damage;
+        Float damage;
 
-        damage = PyromancerConstants.IGNITE_SMALL_BASE_DAMAGE
-                + PyromancerConstants.IGNITE_SMALL_LEVEL_DAMAGE * assailant.getLevel();
+        damage = (float) (PyromancerConstants.IGNITE_SMALL_BASE_DAMAGE
+                + PyromancerConstants.IGNITE_SMALL_LEVEL_DAMAGE * assailant.getLevel());
 
         if (battlefield.getPlayerLot(assailant).getLandType() == PyromancerConstants.LAND_TYPE) {
             damage *= PyromancerConstants.LAND_TYPE_BONUS;
@@ -107,11 +100,27 @@ public final class Ignite implements PlayersVisitor {
         return Math.round(damage);
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier) {
+    /**
+     * Sets the total damage.
+     * @param victim player who is attacked
+     * @param raceMod race modifier specific to the victim
+     * @return total damage with race modifiers.
+     */
+    public void calculateTotalDamage(final Player victim, final Float raceMod) {
+
+        Float raceModifier = raceMod;
+
+        //Add angel and strategy bonuses to race modifiers
+        for (Float bonusMod: battlefield.getOpponent(victim).getBonusModifiers()) {
+            raceModifier += bonusMod;
+        }
+
+        //Set total damage
         int damage = Math.round(calculateRawDamage(victim) * raceModifier);
         damage += victim.getRoundDamage();
         victim.setRoundDamage(damage);
 
+        //Set overtime damage and overtime rounds
         damage = Math.round(calculateOvertime(victim) * raceModifier);
         victim.setOvertimeDamage(damage);
         victim.setOvertimeRounds(2);

@@ -1,6 +1,5 @@
 package main;
 
-import abilities.PlayerVisitor;
 import players.Player;
 import players.Pyromancer;
 import players.Rogue;
@@ -12,7 +11,7 @@ import java.io.IOException;
 /**
  * Visitor class which outputs the corresponding final result for each player.
  * **/
-public final class ScoreOutput implements PlayerVisitor {
+public final class ScoreOutput implements PlayersVisitor {
     private final FileWriter fileWriter;
 
     public ScoreOutput(final FileWriter fileWriter) throws IOException {
@@ -25,7 +24,7 @@ public final class ScoreOutput implements PlayerVisitor {
      * @throws IOException
      */
     public void printPlayerDetails(final Player player) throws IOException {
-        if (player.getLevel() == -1) {
+        if (player.isDead()) {
             fileWriter.write("dead\n");
         } else {
             fileWriter.write(player.getLevel() + " "

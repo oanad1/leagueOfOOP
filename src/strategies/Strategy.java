@@ -2,8 +2,11 @@ package strategies;
 
 import players.Player;
 
+/**
+ * Interface for Strategies.
+ * **/
 public interface Strategy {
 
-    public void applyTactic(Player player, float fraction, float coefficient);
+    void applyTactic(Player player, Float fraction, Float coefficient);
 
 }

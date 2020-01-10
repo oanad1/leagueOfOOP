@@ -1,14 +1,16 @@
 package abilities;
 
-import constants.RogueConstants;
 import constants.WizardConstants;
 import input.Battlefield;
 import main.PlayersVisitor;
-import players.*;
-
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
 /**
- * Deflect ability specific to the Wizard players.
+ * Deflect ability specific to Wizard players.
  * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Deflect implements PlayersVisitor {
@@ -23,55 +25,59 @@ public final class Deflect implements PlayersVisitor {
         return instance;
     }
 
+
     /**
      * Applies damage on pyromancer.
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifier = WizardConstants.DEFLECT_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
-        calculateTotalDamage(pyromancer,raceModifier);
+        Float raceModifier = WizardConstants.DEFLECT_MOD_P;
+        calculateTotalDamage(pyromancer, raceModifier);
     }
+
 
     /**
      * Applies damage on rogue.
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifier = WizardConstants.DEFLECT_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
-        calculateTotalDamage(rogue,raceModifier);
+        Float raceModifier = WizardConstants.DEFLECT_MOD_R;
+        calculateTotalDamage(rogue, raceModifier);
     }
 
+
     /**
-     * Does not apply anything on another wizard.
+     * Does not do anything to another wizard.
      * @param wizard
      */
     public void visit(final Wizard wizard) {
         return;
     }
 
+
     /**
      * Applies damage on knight.
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifier = WizardConstants.DEFLECT_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
-        calculateTotalDamage(knight,raceModifier);
+        Float raceModifier = WizardConstants.DEFLECT_MOD_K;
+        calculateTotalDamage(knight, raceModifier);
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent and his unmodified damage.
+     * Calculates the total damage without race modifiers.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculateRawDamage(final Player victim) {
+    public Float calculateRawDamage(final Player victim) {
         Wizard assailant = (Wizard) battlefield.getOpponent(victim);
 
-        float percent = WizardConstants.DEFLECT_BASE_PROCENT
+        Float percent = WizardConstants.DEFLECT_BASE_PROCENT
                 + WizardConstants.DEFLECT_LEVEL_PROCENT * assailant.getLevel();
         if (percent > WizardConstants.DEFLECT_MAX_PROCENT) {
             percent = WizardConstants.DEFLECT_MAX_PROCENT;
         }
-        float damage = percent * assailant.getUnmodifiedDamage();
+        Float damage = percent * assailant.getUnmodifiedDamage();
 
         if (battlefield.getPlayerLot(assailant).getLandType() == WizardConstants.LAND_TYPE) {
             damage *= WizardConstants.LAND_TYPE_BONUS;
@@ -79,7 +85,21 @@ public final class Deflect implements PlayersVisitor {
         return damage;
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier) {
+    /**
+     * Sets the total damage for the victim.
+     * @param victim player who is attacked
+     * @param raceMod race modifier specific to the victim
+     * @return total damage with race modifiers
+     */
+    public void calculateTotalDamage(final Player victim, final Float raceMod) {
+
+        Float raceModifier = raceMod;
+
+        //Add angel and strategy bonuses to the land modifiers
+        for (Float bonusMod: battlefield.getOpponent(victim).getBonusModifiers()) {
+            raceModifier += bonusMod;
+        }
+
         int damage = Math.round(calculateRawDamage(victim) * raceModifier);
         damage += victim.getRoundDamage();
         victim.setRoundDamage(damage);

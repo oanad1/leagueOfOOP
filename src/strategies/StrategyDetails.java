@@ -9,16 +9,19 @@ import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
+/**
+ * Helper class used to keep all strategy information
+ * for a specific type of player.
+ * **/
+public final class StrategyDetails {
+    private Float lowLimitFrac;
+    private Float upLimitFrac;
+    private Float attackHPFrac;
+    private Float attackHPCoef;
+    private Float defenseHPFrac;
+    private Float defenseHPCoef;
 
-public class StrategyDetails {
-    private float lowLimitFrac;
-    private float upLimitFrac;
-    private float attackHPFrac;
-    private float attackHPCoef;
-    private float defenseHPFrac;
-    private float defenseHPCoef;
-
-    public StrategyDetails(Rogue rogue){
+    public StrategyDetails(final Rogue rogue) {
         this.lowLimitFrac = RogueConstants.LOW_LIMIT_FRAC;
         this.upLimitFrac = RogueConstants.UP_LIMIT_FRAC;
         this.attackHPFrac = RogueConstants.ATTACK_HP_FRAC;
@@ -27,7 +30,7 @@ public class StrategyDetails {
         this.defenseHPCoef = RogueConstants.DEFENSE_COEF;
     }
 
-    public StrategyDetails(Pyromancer pyromancer){
+    public StrategyDetails(final Pyromancer pyromancer) {
         this.lowLimitFrac = PyromancerConstants.LOW_LIMIT_FRAC;
         this.upLimitFrac = PyromancerConstants.UP_LIMIT_FRAC;
         this.attackHPFrac = PyromancerConstants.ATTACK_HP_FRAC;
@@ -36,7 +39,7 @@ public class StrategyDetails {
         this.defenseHPCoef = PyromancerConstants.DEFENSE_COEF;
     }
 
-    public StrategyDetails(Knight knight){
+    public StrategyDetails(final Knight knight) {
         this.lowLimitFrac = KnightConstants.LOW_LIMIT_FRAC;
         this.upLimitFrac = KnightConstants.UP_LIMIT_FRAC;
         this.attackHPFrac = KnightConstants.ATTACK_HP_FRAC;
@@ -45,7 +48,7 @@ public class StrategyDetails {
         this.defenseHPCoef = KnightConstants.DEFENSE_COEF;
     }
 
-    public StrategyDetails (Wizard wizard){
+    public StrategyDetails(final Wizard wizard) {
         this.lowLimitFrac = WizardConstants.LOW_LIMIT_FRAC;
         this.upLimitFrac = WizardConstants.UP_LIMIT_FRAC;
         this.attackHPFrac = WizardConstants.ATTACK_HP_FRAC;
@@ -54,51 +57,27 @@ public class StrategyDetails {
         this.defenseHPCoef = WizardConstants.DEFENSE_COEF;
     }
 
-    public float getLowLimitFrac() {
+    public Float getLowLimitFrac() {
         return lowLimitFrac;
     }
 
-    public void setLowLimitFrac(float lowLimitFrac) {
-        this.lowLimitFrac = lowLimitFrac;
-    }
-
-    public float getUpLimitFrac() {
+    public Float getUpLimitFrac() {
         return upLimitFrac;
     }
 
-    public void setUpLimitFrac(float upLimitFrac) {
-        this.upLimitFrac = upLimitFrac;
-    }
-
-    public float getAttackHPFrac() {
+    public Float getAttackHPFrac() {
         return attackHPFrac;
     }
 
-    public void setAttackHPFrac(float attackHPFrac) {
-        this.attackHPFrac = attackHPFrac;
-    }
-
-    public float getDefenseHPFrac() {
+    public Float getDefenseHPFrac() {
         return defenseHPFrac;
     }
 
-    public void setDefenseHPFrac(float defenseHPFrac) {
-        this.defenseHPFrac = defenseHPFrac;
-    }
-
-    public float getDefenseHPCoef() {
+    public Float getDefenseHPCoef() {
         return defenseHPCoef;
     }
 
-    public void setDefenseHPCoef(float defenseHPCoef) {
-        this.defenseHPCoef = defenseHPCoef;
-    }
-
-    public float getAttackHPCoef() {
+    public Float getAttackHPCoef() {
         return attackHPCoef;
-    }
-
-    public void setAttackHPCoef(float attackHPCoef) {
-        this.attackHPCoef = attackHPCoef;
     }
 }

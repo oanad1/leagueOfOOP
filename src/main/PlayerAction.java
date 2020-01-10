@@ -1,6 +1,5 @@
 package main;
 
-import abilities.Fight;
 import input.Battlefield;
 import players.Player;
 
@@ -53,26 +52,13 @@ public final class PlayerAction {
                 break;
         }
 
-        //Add the player back on the battlefield
-        if(player.getcolumnPos() < battlefield.getNrCols() && player.getrowPos() < battlefield.getNrRows() &&
-        player.getrowPos() >= 0 && player.getcolumnPos() >= 0)
-        battlefield.addPlayer(player);
+        //Add the player back on the battlefield if its calculated position is valid
+        if (player.getcolumnPos() < battlefield.getNrCols() && player.getrowPos()
+                < battlefield.getNrRows() && player.getrowPos() >= 0
+                && player.getcolumnPos() >= 0) {
+            battlefield.addPlayer(player);
+        }
     }
-
-
-    /**
-     * Allows player to fight its opponent.
-     * @param player player who is supposed to fight
-     * **/
-    public static void fight(final Player player) {
-         Battlefield.Lot lot = battlefield.getPlayerLot(player);
-
-         //The fight happens only if the player is not alone on his Lot
-         if ( lot != null && lot.getOccupants().size() > 1) {
-             player.accept(Fight.getInstance());
-         }
-    }
-
 
     /**
      * Applies the accumulated damage to the player's HP.
@@ -93,9 +79,8 @@ public final class PlayerAction {
         //Ignore players who were already dead before
         if (player.getCurrentHP() < 0 && !player.isDead()) {
 
-            //Player is removed from the map and marked as dead
+            //Player is marked as dead
             player.setDead(true);
-            //battlefield.removePlayer(player);
         }
     }
 }

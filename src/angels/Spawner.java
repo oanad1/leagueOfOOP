@@ -1,13 +1,16 @@
 package angels;
 
 import constants.AngelConstants;
-import input.Battlefield;
 import players.Knight;
 import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
-public class Spawner implements AngelVisitor {
+/**
+ * Spawner- brings a player back to life.
+ * Singleton class implementing the AngelVisitor interface
+ */
+public final class Spawner implements AngelVisitor {
 
     private static Spawner instance = null;
 
@@ -20,37 +23,33 @@ public class Spawner implements AngelVisitor {
     }
 
     @Override
-    public void visit(Pyromancer pyromancer) {
-     if(pyromancer.isDead()){
+    public void visit(final Pyromancer pyromancer) {
+     if (pyromancer.isDead()) {
          pyromancer.setDead(false);
-         Battlefield.getInstance().addPlayer(pyromancer);
          pyromancer.setCurrentHP(AngelConstants.SPAWNER_HP_P);
      }
     }
 
     @Override
-    public void visit(Rogue rogue) {
-        if(rogue.isDead()){
+    public void visit(final Rogue rogue) {
+        if (rogue.isDead()) {
             rogue.setDead(false);
-            Battlefield.getInstance().addPlayer(rogue);
             rogue.setCurrentHP(AngelConstants.SPAWNER_HP_R);
         }
     }
 
     @Override
-    public void visit(Wizard wizard) {
-        if(wizard.isDead()){
+    public void visit(final Wizard wizard) {
+        if (wizard.isDead()) {
             wizard.setDead(false);
-            Battlefield.getInstance().addPlayer(wizard);
             wizard.setCurrentHP(AngelConstants.SPAWNER_HP_W);
         }
     }
 
     @Override
-    public void visit(Knight knight) {
-        if(knight.isDead()){
+    public void visit(final Knight knight) {
+        if (knight.isDead()) {
             knight.setDead(false);
-            Battlefield.getInstance().addPlayer(knight);
             knight.setCurrentHP(AngelConstants.SPAWNER_HP_K);
         }
     }

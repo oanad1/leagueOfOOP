@@ -1,8 +1,8 @@
 package input;
 
 import players.Player;
-
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * A class used to store the structure of the game's map, as
@@ -60,7 +60,9 @@ public final class Battlefield {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
 
-        battlefieldMat[rowPos][columnPos].removeOccupant(player);
+        if (rowPos > -1 && columnPos > -1 && rowPos < nrCols && columnPos < nrCols) {
+            battlefieldMat[rowPos][columnPos].removeOccupant(player);
+        }
     }
 
 
@@ -71,7 +73,6 @@ public final class Battlefield {
     public void addPlayer(final Player player) {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
-
         battlefieldMat[rowPos][columnPos].addOccupant(player);
     }
 
@@ -81,29 +82,40 @@ public final class Battlefield {
      * @param player player to search for
      * @return a Lot class where the player is stored in the occupants array.
      */
-    public Lot getLot(final Player player) {
+    public Lot getPlayerLot(final Player player) {
         int rowPos = player.getrowPos();
         int columnPos = player.getcolumnPos();
-        return battlefieldMat[rowPos][columnPos];
+        if (rowPos > -1 && columnPos > -1 && rowPos < nrCols && columnPos < nrCols) {
+            return battlefieldMat[rowPos][columnPos];
+        }
+        return null;
     }
-
 
     /**
      * Method which returns the opponent of a player.
      * @param player player who needs to know its opponent
-     * @return the other occupant of the battlefield cell, or null if there isn't any.
+     * @return the other alive occupant of the battlefield cell, or null if there isn't any.
      */
     public Player getOpponent(final Player player) {
 
-        Lot lot = getLot(player);
+        Lot lot = getPlayerLot(player);
         Player opponent = null;
 
+        //Return null if the player is alone on its lot
+        if (lot == null || lot.getOccupants().size() == 1) {
+            return null;
+        }
+
+        /* Return the other alive occupant of the lot (or who was alive at the beginning
+        of the round and died as a result of the fight)
+         */
         for (Player p: lot.getOccupants()) {
-            if (!p.equals(player)) {
+            if ((!p.isDead() || (p.isDead() && !p.getPlayerMonitor().getDeath()))
+                    && !p.equals(player)) {
                 opponent = p;
             }
         }
-        return opponent;
+      return opponent;
     }
 
 
@@ -147,6 +159,7 @@ public final class Battlefield {
          */
         public void addOccupant(final Player player) {
             occupants.add(player);
+            occupants.sort(Comparator.comparingInt(Player::getId));
         }
 
         public char getLandType() {

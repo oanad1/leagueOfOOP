@@ -5,6 +5,9 @@ import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
+/**
+ * Interface used by angels in order to apply their abilities.
+ */
 public interface AngelVisitor {
     void visit(Pyromancer pyromancer);
 

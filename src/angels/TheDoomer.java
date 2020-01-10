@@ -1,9 +1,16 @@
 package angels;
 
-import input.Battlefield;
-import players.*;
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
-public class TheDoomer implements AngelVisitor {
+/**
+ * The Doomer - kills a player.
+ * Singleton class implementing the AngelVisitor interface
+ */
+public final class TheDoomer implements AngelVisitor {
 
     private static TheDoomer instance = null;
 
@@ -16,29 +23,28 @@ public class TheDoomer implements AngelVisitor {
     }
 
     @Override
-    public void visit(Pyromancer pyromancer) {
+    public void visit(final Pyromancer pyromancer) {
        kill(pyromancer);
     }
 
     @Override
-    public void visit(Rogue rogue) {
+    public void visit(final Rogue rogue) {
         kill(rogue);
     }
 
     @Override
-    public void visit(Wizard wizard) {
+    public void visit(final Wizard wizard) {
         kill(wizard);
     }
 
     @Override
-    public void visit(Knight knight) {
+    public void visit(final Knight knight) {
         kill(knight);
     }
 
-    public void kill(Player player) {
-        if(!player.isDead()){
+    public void kill(final Player player) {
+        if (!player.isDead()) {
             player.setDead(true);
-            Battlefield.getInstance().removePlayer(player);
         }
     }
 }

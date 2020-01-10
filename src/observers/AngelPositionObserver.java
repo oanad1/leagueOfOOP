@@ -1,12 +1,14 @@
 package observers;
 
 import input.GameInfo;
-import players.Player;
-
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class AngelPositionObserver implements GreatMagicianObserver{
+/**
+ * Observer for angels - prints message in case a new angel
+ * appears on the battlefield.
+ */
+public final class AngelPositionObserver implements GreatMagicianObserver {
 
     private static AngelPositionObserver instance = null;
 
@@ -18,7 +20,8 @@ public class AngelPositionObserver implements GreatMagicianObserver{
         return instance;
     }
 
-    public void update(EventMonitor eventMonitor, FileWriter fileWriter) throws IOException {
+    public void update(final EventMonitor eventMonitor, final FileWriter fileWriter)
+            throws IOException {
         GameInfo.Angel angel = eventMonitor.getAngel();
 
             fileWriter.write("Angel " + angel.getName() + " was spawned at "

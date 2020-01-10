@@ -1,9 +1,12 @@
 package constants;
 
+
 /**
  * Constants used by all Players.
  */
-public interface PlayerConstants {
+public final class PlayerConstants {
+
+    private PlayerConstants() { }
 
     //Universal Constants
     public static final int WINNER_XP_BASE = 200;

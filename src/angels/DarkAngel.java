@@ -6,7 +6,11 @@ import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
-public class DarkAngel implements AngelVisitor {
+/**
+ * Dark Angel- decreases HP.
+ * Singleton class implementing the AngelVisitor interface
+ */
+public final class DarkAngel implements AngelVisitor {
 
     private static DarkAngel instance = null;
 
@@ -19,22 +23,22 @@ public class DarkAngel implements AngelVisitor {
     }
 
     @Override
-    public void visit(Pyromancer pyromancer) {
+    public void visit(final Pyromancer pyromancer) {
        pyromancer.setCurrentHP(pyromancer.getCurrentHP() - AngelConstants.DARK_HP_P);
     }
 
     @Override
-    public void visit(Rogue rogue) {
+    public void visit(final Rogue rogue) {
         rogue.setCurrentHP(rogue.getCurrentHP() - AngelConstants.DARK_HP_R);
     }
 
     @Override
-    public void visit(Wizard wizard) {
+    public void visit(final Wizard wizard) {
         wizard.setCurrentHP(wizard.getCurrentHP() - AngelConstants.DARK_HP_W);
     }
 
     @Override
-    public void visit(Knight knight) {
+    public void visit(final Knight knight) {
         knight.setCurrentHP(knight.getCurrentHP() - AngelConstants.DARK_HP_K);
     }
 }

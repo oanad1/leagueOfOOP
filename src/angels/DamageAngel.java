@@ -6,7 +6,11 @@ import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
-public class DamageAngel implements AngelVisitor {
+/**
+ * Damage Angel- increases modifiers.
+ * Singleton class implementing the AngelVisitor interface
+ */
+public final class DamageAngel implements AngelVisitor {
 
     private static DamageAngel instance = null;
 
@@ -19,22 +23,22 @@ public class DamageAngel implements AngelVisitor {
     }
 
     @Override
-    public void visit(Pyromancer pyromancer) {
-        pyromancer.setAngelModifier(pyromancer.getAngelModifier() + AngelConstants.DA_MOD_P);
+    public void visit(final Pyromancer pyromancer) {
+        pyromancer.addBonusModifier(AngelConstants.DA_MOD_P);
     }
 
     @Override
-    public void visit(Rogue rogue) {
-        rogue.setAngelModifier(rogue.getAngelModifier() + AngelConstants.DA_MOD_R);
+    public void visit(final Rogue rogue) {
+        rogue.addBonusModifier(AngelConstants.DA_MOD_R);
     }
 
     @Override
-    public void visit(Wizard wizard) {
-        wizard.setAngelModifier(wizard.getAngelModifier() + AngelConstants.DA_MOD_W);
+    public void visit(final Wizard wizard) {
+        wizard.addBonusModifier(AngelConstants.DA_MOD_W);
     }
 
     @Override
-    public void visit(Knight knight) {
-        knight.setAngelModifier(knight.getAngelModifier() + AngelConstants.DA_MOD_K);
+    public void visit(final Knight knight) {
+        knight.addBonusModifier(AngelConstants.DA_MOD_K);
     }
 }

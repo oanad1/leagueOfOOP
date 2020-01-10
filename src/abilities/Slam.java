@@ -1,14 +1,17 @@
 package abilities;
 
 import constants.KnightConstants;
-import constants.RogueConstants;
 import input.Battlefield;
 import main.PlayersVisitor;
-import players.*;
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
 
 /**
- * Slam ability specific to the Knight players.
+ * Slam ability specific to Knight players.
  * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Slam implements PlayersVisitor {
@@ -28,8 +31,8 @@ public final class Slam implements PlayersVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifiers =  KnightConstants.SLAM_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
-        calculateTotalDamage(pyromancer,raceModifiers);
+        Float raceModifiers =  KnightConstants.SLAM_MOD_P;
+        calculateTotalDamage(pyromancer, raceModifiers);
     }
 
     /**
@@ -37,21 +40,22 @@ public final class Slam implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifiers =  KnightConstants.SLAM_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
-        calculateTotalDamage(rogue,raceModifiers);
+        Float raceModifiers =  KnightConstants.SLAM_MOD_R;
+        calculateTotalDamage(rogue, raceModifiers);
     }
 
     /**
      * Applies damage on wizard and immobilizes him.
-     * Also calculates damage without race modifiers
+     * Calculates unmodified damage for wizard.
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float unmodDamage = calculateRawDamage(wizard);
-        wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
+        Float unmodDamage = calculateRawDamage(wizard);
+        wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage()
+                + Math.round(unmodDamage));
 
-        float raceModifiers =  KnightConstants.SLAM_MOD_W + battlefield.getOpponent(wizard).getAngelModifier();
-        calculateTotalDamage(wizard,raceModifiers);
+        Float raceModifiers =  KnightConstants.SLAM_MOD_W;
+        calculateTotalDamage(wizard, raceModifiers);
     }
 
     /**
@@ -59,30 +63,43 @@ public final class Slam implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifiers =  KnightConstants.SLAM_MOD_K + battlefield.getOpponent(knight).getAngelModifier();
-        calculateTotalDamage(knight,raceModifiers);
+        Float raceModifiers =  KnightConstants.SLAM_MOD_K;
+        calculateTotalDamage(knight, raceModifiers);
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent.
+     * Calculates the damage without race modifiers.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculateRawDamage(final Player victim) {
+    public Float calculateRawDamage(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
 
-        float damage = KnightConstants.SLAM_BASE_DAMAGE
-                + KnightConstants.SLAM_LEVEL_DAMAGE * assailant.getLevel();
+        Float damage = (float) (KnightConstants.SLAM_BASE_DAMAGE
+                + KnightConstants.SLAM_LEVEL_DAMAGE * assailant.getLevel());
+
         if (battlefield.getPlayerLot(assailant).getLandType() == KnightConstants.LAND_TYPE) {
             damage *= KnightConstants.LAND_TYPE_BONUS;
         }
         return damage;
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier) {
+    /**
+     * Sets the total damage.
+     * @param victim player who is attacked
+     * @param raceMod race modifier specific to the victim
+     * @return total damage with race modifiers
+     */
+    public void calculateTotalDamage(final Player victim, final Float raceMod) {
+
+        Float raceModifier = raceMod;
+        //Add angel and strategy bonuses to race modifiers
+        for (Float bonusMod: battlefield.getOpponent(victim).getBonusModifiers()) {
+            raceModifier = raceModifier + bonusMod;
+        }
         int damage = Math.round(calculateRawDamage(victim) * raceModifier);
         damage += victim.getRoundDamage();
         victim.setRoundDamage(damage);
-        victim.setImmobilized(1);
+        victim.setToImobilize(true);
     }
 }

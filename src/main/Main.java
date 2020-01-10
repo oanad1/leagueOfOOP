@@ -17,15 +17,19 @@ public final class Main {
         InputReader inputReader = new InputReader();
         GameInfo gameInfo = inputReader.inputLoad(args[0]);
 
+
         //Create a class for the game structure
         GameSystem gameSystem = new GameSystem();
 
-        //Play the game
-        gameSystem.playGame(gameInfo);
-
-        //Write the results to the output file using a Visitor object
+        //Create an object to write the game output
         FileWriter fileWriter = new FileWriter(args[1]);
         ScoreOutput scoreOutput = new ScoreOutput(fileWriter);
+
+        //Play the game
+        gameSystem.playGame(gameInfo, fileWriter);
+
+        //Write the final score
+        fileWriter.write("~~ Results ~~" + '\n');
 
         for (Player player: gameInfo.getPlayers()) {
             player.accept(scoreOutput);

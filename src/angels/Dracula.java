@@ -6,7 +6,11 @@ import players.Pyromancer;
 import players.Rogue;
 import players.Wizard;
 
-public class Dracula implements AngelVisitor {
+/**
+ * Dracula- decreases modifiers and HP.
+ * Singleton class implementing the AngelVisitor interface
+ */
+public final class Dracula implements AngelVisitor {
 
     private static Dracula instance = null;
 
@@ -19,26 +23,26 @@ public class Dracula implements AngelVisitor {
     }
 
     @Override
-    public void visit(Pyromancer pyromancer) {
-        pyromancer.setAngelModifier(pyromancer.getAngelModifier() - AngelConstants.DRACULA_MOD_P);
+    public void visit(final Pyromancer pyromancer) {
+        pyromancer.addBonusModifier(-AngelConstants.DRACULA_MOD_P);
         pyromancer.setCurrentHP(pyromancer.getCurrentHP() - AngelConstants.DRACULA_HP_P);
     }
 
     @Override
-    public void visit(Rogue rogue) {
-        rogue.setAngelModifier(rogue.getAngelModifier() - AngelConstants.DRACULA_MOD_R);
+    public void visit(final Rogue rogue) {
+        rogue.addBonusModifier(-AngelConstants.DRACULA_MOD_R);
         rogue.setCurrentHP(rogue.getCurrentHP() - AngelConstants.DRACULA_HP_R);
     }
 
     @Override
-    public void visit(Wizard wizard) {
-        wizard.setAngelModifier(wizard.getAngelModifier() - AngelConstants.DRACULA_MOD_W);
+    public void visit(final Wizard wizard) {
+        wizard.addBonusModifier(-AngelConstants.DRACULA_MOD_W);
         wizard.setCurrentHP(wizard.getCurrentHP() - AngelConstants.DRACULA_HP_W);
     }
 
     @Override
-    public void visit(Knight knight) {
-        knight.setAngelModifier(knight.getAngelModifier() - AngelConstants.DRACULA_MOD_K);
+    public void visit(final Knight knight) {
+        knight.addBonusModifier(-AngelConstants.DRACULA_MOD_K);
         knight.setCurrentHP(knight.getCurrentHP() - AngelConstants.DRACULA_HP_K);
     }
 }

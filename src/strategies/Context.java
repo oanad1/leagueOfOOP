@@ -1,21 +1,25 @@
 package strategies;
 
-import abilities.*;
-import constants.RogueConstants;
-import players.*;
+import players.Player;
 
-public class Context {
+
+/**
+ * Class used to execute a Strategy.
+ * **/
+public final class Context {
     private Strategy strategy;
-    private float coefficient;
-    private float fraction;
+    private Float coefficient;
+    private Float fraction;
 
-    public Context(Strategy strategy, float hpFrac, float coef){
+    public Context(final Strategy strategy, final Float hpFrac, final Float coef) {
         this.coefficient = coef;
         this.fraction = hpFrac;
         this.strategy = strategy;
     }
 
-    public void executeStrategy(Player player){
-        strategy.applyTactic(player, fraction,coefficient);
+    public void executeStrategy(final Player player) {
+        if (strategy != null) {
+            strategy.applyTactic(player, fraction, coefficient);
+        }
     }
 }

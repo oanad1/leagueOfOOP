@@ -1,16 +1,17 @@
 package players;
 
-import abilities.PlayerVisitor;
+import main.PlayersVisitor;
+import angels.AngelVisitor;
 import constants.RogueConstants;
-import constants.UniversalConstants;
+import constants.PlayerConstants;
 
 /**
- * An implementation of a Rogue player, extension of a Player class.
+ * Rogue player, extension of Player class.
  */
-public class Rogue extends Player implements Visitable {
+public final class Rogue extends Player implements Visitable {
 
     private int nrBackstabHits = 0;   //The number of backstab hits applied by this player
-
+    private String type  = "Rogue";
 
     public Rogue(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
@@ -18,15 +19,25 @@ public class Rogue extends Player implements Visitable {
     }
 
 
-    public final void accept(final PlayerVisitor visitor) {
+    public void accept(final PlayersVisitor visitor) {
         visitor.visit(this);
     }
 
+    public void accept(final AngelVisitor visitor) {
+        visitor.visit(this);
+    }
 
-    public final void checkLevelUp() {
+    /**
+     * Method used by the rogue to level up.
+     */
+    public void checkLevelUp() {
 
-        int newLevel = (this.getCurrentXP() - UniversalConstants.LEVEL_UP_BASE)
-                / UniversalConstants.LEVEL_UP_MULTIPLIER + 1;
+        int newLevel = (this.getCurrentXP() - PlayerConstants.LEVEL_UP_BASE)
+                / PlayerConstants.LEVEL_UP_MULTIPLIER + 1;
+
+        if (this.getCurrentXP() < PlayerConstants.LEVEL_UP_BASE) {
+            newLevel = 0;
+        }
 
         if (newLevel > this.getLevel()) {
             this.setCurrentHP(RogueConstants.BASE_HP + newLevel * RogueConstants.LEVEL_HP);
@@ -35,11 +46,19 @@ public class Rogue extends Player implements Visitable {
     }
 
 
-    public final int getNrBackstabHits() {
+    public int getNrBackstabHits() {
         return nrBackstabHits;
     }
 
-    public final void setNrBackstabHits(final int nrBackstabHits) {
+    public void setNrBackstabHits(final int nrBackstabHits) {
         this.nrBackstabHits = nrBackstabHits;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(final String type) {
+        this.type = type;
     }
 }

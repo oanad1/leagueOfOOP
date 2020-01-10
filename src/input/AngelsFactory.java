@@ -1,9 +1,23 @@
 package input;
 
-import angels.*;
-import players.*;
+import angels.AngelVisitor;
+import angels.DamageAngel;
+import angels.XPAngel;
+import angels.LifeGiver;
+import angels.DarkAngel;
+import angels.Spawner;
+import angels.Dracula;
+import angels.GoodBoy;
+import angels.LevelUpAngel;
+import angels.TheDoomer;
+import angels.SmallAngel;
 
-public class AngelsFactory {
+/**
+ * A factory class used to create instances of Angel objects.
+ */
+public final class AngelsFactory {
+
+         private AngelsFactory() { }
 
         public static AngelVisitor getAngel(final String type) {
 

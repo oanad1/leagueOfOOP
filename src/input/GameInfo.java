@@ -8,13 +8,14 @@ import java.util.HashMap;
 /**
  * Helper class which stores information about the game:
  * the initial array of players, an array containing each
- * round's moves and the total number of rounds.
+ * round's moves, the total number of rounds, a hashmap
+ * containing the angels for each round.
  */
 public final class GameInfo {
-    private final ArrayList<Player> players;                     //The array of players in their initial input order
-    private final ArrayList<String> moves;                       //The array containing all moves in the game
-    private final int nrRounds;                                  //The number of rounds in the current game
-    private final HashMap<Integer, ArrayList<Angel>> angels;
+    private final ArrayList<Player> players;              //The array of players in order
+    private final ArrayList<String> moves;                //The array with all the moves
+    private final int nrRounds;                           //The number of rounds in the game
+    private final HashMap<Integer, ArrayList<Angel>> angels;   //The angels for each round
 
     public GameInfo(final ArrayList<Player> players, final ArrayList<String> moves) {
         this.players = players;
@@ -23,8 +24,14 @@ public final class GameInfo {
         this.angels = new HashMap<>();
     }
 
-    public void addAngelsRound(int roundNr, ArrayList<Angel> roundAngels) {
-         angels.put(roundNr,roundAngels);
+
+    /**
+     * Adds angels in the hashmap based on a given round.
+     * @param roundNr the current round number
+     * @param roundAngels an array of angels corresponding to the current round
+     */
+    public void addAngelsRound(final int roundNr, final ArrayList<Angel> roundAngels) {
+        angels.put(roundNr, roundAngels);
     }
 
     public ArrayList<Player> getPlayers() {
@@ -43,49 +50,38 @@ public final class GameInfo {
         return angels;
     }
 
-
-    public static class Angel {
+    /**
+     * Internal class used to retain an angel's position, name and
+     * ability(an AngelVisitor object).
+     */
+    public static final class Angel {
         private int xCoord;
         private int yCoord;
         private AngelVisitor angelType;
+        private String name;
 
-        public Angel(int xCoord, int yCoord, AngelVisitor angelType) {
+        public Angel(final int xCoord, final int yCoord,
+                     final AngelVisitor angelType, final String name) {
             this.xCoord = xCoord;
             this.yCoord = yCoord;
             this.angelType = angelType;
+            this.name = name;
         }
 
         public int getxCoord() {
             return xCoord;
         }
 
-        public void setxCoord(int xCoord) {
-            this.xCoord = xCoord;
-        }
-
         public int getyCoord() {
             return yCoord;
-        }
-
-        public void setyCoord(int yCoord) {
-            this.yCoord = yCoord;
         }
 
         public AngelVisitor getAngelType() {
             return angelType;
         }
 
-        public void setAngelType(AngelVisitor angelType) {
-            this.angelType = angelType;
-        }
-
-        @Override
-        public String toString() {
-            return "Angel{" +
-                    "xCoord=" + xCoord +
-                    ", yCoord=" + yCoord +
-                    ", angelType=" + angelType +
-                    '}';
+        public String getName() {
+            return name;
         }
     }
 }

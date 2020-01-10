@@ -6,11 +6,14 @@ import constants.RogueConstants;
 import constants.WizardConstants;
 import input.Battlefield;
 import main.PlayersVisitor;
-import players.*;
-
+import players.Player;
+import players.Rogue;
+import players.Pyromancer;
+import players.Knight;
+import players.Wizard;
 
 /**
- * Execute ability specific to the Knight players.
+ * Execute ability specific to Knight players.
  * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Execute implements PlayersVisitor {
@@ -31,12 +34,12 @@ public final class Execute implements PlayersVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifier = KnightConstants.EXECUTE_MOD_P + battlefield.getOpponent(pyromancer).getAngelModifier();
-        int maxLevelHP = PyromancerConstants.BASE_HP + pyromancer.getLevel() * PyromancerConstants.LEVEL_HP;
+        Float raceModifier = KnightConstants.EXECUTE_MOD_P;
+        int maxLevelHP = PyromancerConstants.BASE_HP
+                + pyromancer.getLevel() * PyromancerConstants.LEVEL_HP;
 
         calculateTotalDamage(pyromancer, raceModifier, maxLevelHP);
     }
-
 
     /**
      * Calculates HP limit and determines if instant kill can be applied;
@@ -44,8 +47,9 @@ public final class Execute implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifier = KnightConstants.EXECUTE_MOD_R + battlefield.getOpponent(rogue).getAngelModifier();
-        int maxLevelHP = RogueConstants.BASE_HP + rogue.getLevel() * RogueConstants.LEVEL_HP;
+        Float raceModifier = KnightConstants.EXECUTE_MOD_R;
+        int maxLevelHP = RogueConstants.BASE_HP
+                + rogue.getLevel() * RogueConstants.LEVEL_HP;
 
         calculateTotalDamage(rogue, raceModifier, maxLevelHP);
     }
@@ -53,33 +57,20 @@ public final class Execute implements PlayersVisitor {
     /**
      * Calculates HP limit and determines if instant kill can be applied;
      * If not, applies normal damage on wizard.
-     * Also calculates damage without race modifiers.
+     * Calculates unmodified damage for wizard.
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * wizard.getLevel();
 
-        if (levelProcent > KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT) {
-            levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT;
-        }
-
-        int hpLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT
-                * (WizardConstants.BASE_HP + wizard.getLevel()
-                * WizardConstants.LEVEL_HP) + levelProcent);
-
-        float unmodDamage = calculateRawDamage(wizard);
+        Float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(Math.round(unmodDamage));
 
-        if (wizard.getCurrentHP() < hpLimit) {
-            wizard.setRoundDamage(wizard.getCurrentHP());
-            return;
-        }
+        Float raceModifier = KnightConstants.EXECUTE_MOD_W;
+        int maxLevelHP = WizardConstants.BASE_HP
+                + wizard.getLevel() * WizardConstants.LEVEL_HP;
 
-        int damage = Math.round(unmodDamage * (KnightConstants.EXECUTE_MOD_W
-                + battlefield.getOpponent(wizard).getAngelModifier()));
-        damage += wizard.getRoundDamage();
-        wizard.setRoundDamage(damage);
-    }
+        calculateTotalDamage(wizard, raceModifier, maxLevelHP);
+        }
 
     /**
      * Calculates HP limit and determines if instant kill can be applied;
@@ -87,36 +78,59 @@ public final class Execute implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifier = 1;
-        int maxLevelHP = KnightConstants.BASE_HP + knight.getLevel() * KnightConstants.LEVEL_HP;
-        calculateTotalDamage(knight,raceModifier,maxLevelHP);
+        Float raceModifier = 1f;
+        int maxLevelHP = KnightConstants.BASE_HP
+                + knight.getLevel() * KnightConstants.LEVEL_HP;
+        calculateTotalDamage(knight, raceModifier, maxLevelHP);
     }
 
     /**
-     * Calculates the total damage by using the victim's opponent.
+     * Calculates the damage without race modifiers.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculateRawDamage(final Player victim) {
+    public Float calculateRawDamage(final Player victim) {
         Player assailant = battlefield.getOpponent(victim);
 
-        float damage = KnightConstants.EXECUTE_BASE_DAMAGE
-               + KnightConstants.EXECUTE_LEVEL_DAMAGE * assailant.getLevel();
+        Float damage = (float) (KnightConstants.EXECUTE_BASE_DAMAGE
+                + KnightConstants.EXECUTE_LEVEL_DAMAGE * assailant.getLevel());
+
         if (battlefield.getPlayerLot(assailant).getLandType() == KnightConstants.LAND_TYPE) {
             damage *= KnightConstants.LAND_TYPE_BONUS;
         }
+
         return damage;
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier, final int maxLevelHP) {
-        float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * victim.getLevel();
+    /**
+     * Sets the total damage.
+     * @param victim player who is attacked
+     * @param raceMod race modifier specific to the victim
+     * @param maxLevelHP the victim's max HP for his level
+     * @return total damage with race modifiers
+     */
+    public void calculateTotalDamage(final Player victim,
+                                     final Float raceMod, final int maxLevelHP) {
+
+        Float raceModifier = raceMod;
+
+        //Add angel and strategy bonuses to the land modifiers
+        if (raceModifier != 1f) {
+            for (Float bonusMod : battlefield.getOpponent(victim).getBonusModifiers()) {
+                raceModifier += bonusMod;
+            }
+        }
+
+        Float levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_PERCENT * victim.getLevel();
 
         if (levelProcent > KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT) {
             levelProcent = KnightConstants.EXECUTE_INSTANT_LEVEL_MAX_PERCENT;
         }
 
-        int hpLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT * maxLevelHP + levelProcent);
+        int hpLimit = Math.round(KnightConstants.EXECUTE_INSTANT_PERCENT * maxLevelHP
+                + levelProcent);
 
+        //If the victim's HP is smaller than the limit, apply instant kill
         if (victim.getCurrentHP() < hpLimit) {
             victim.setRoundDamage(victim.getCurrentHP());
             return;

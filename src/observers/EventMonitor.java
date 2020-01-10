@@ -1,6 +1,5 @@
 package observers;
 
-import input.Battlefield;
 import input.GameInfo;
 import players.Player;
 
@@ -8,66 +7,69 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class EventMonitor{
+/**
+ * Class used to keep track of events which happen during a round
+ * and notify observers when changes occur.
+ */
+public final class EventMonitor {
 
     private ArrayList<GreatMagicianObserver> observers = new ArrayList<GreatMagicianObserver>();
-    private int level;
-    private boolean death;
-    private Player player;
+    private ArrayList<Player> players;
     private GameInfo.Angel angel;
-    private  ArrayList<Player> playersLifeChange;
 
-
-    public EventMonitor(Player player){
-        this.level = player.getLevel();
-        this.death = player.isDead();
-        this.player = player;
+    public EventMonitor(final ArrayList<Player> players) {
+        this.players = players;
     }
 
-    public EventMonitor(GameInfo.Angel angel){
-        this.angel = angel;
-        this.playersLifeChange = new ArrayList<>();
-    }
-
-    public void addObserver(GreatMagicianObserver observer){
+    /**
+     * Method used to add a new observer.
+     * @param observer a type of Great Magician observer
+     */
+    public void addObserver(final GreatMagicianObserver observer) {
         observers.add(observer);
     }
 
-    public void alertObservers(FileWriter fileWriter) throws IOException {
+    /**
+     * Method used to remove an observer.
+     * @param observer a type of Great Magician observer
+     */
+    public void removeObserver(final GreatMagicianObserver observer) {
+        observers.remove(observer);
+    }
 
-        for(GreatMagicianObserver observer: observers){
+
+    /**
+     * Method used to notify all observers when changes occur.
+     * @param fileWriter used to output results
+     */
+    public void alertObservers(final FileWriter fileWriter) throws IOException {
+
+        for (GreatMagicianObserver observer: observers) {
             observer.update(this, fileWriter);
         }
     }
 
-    public void setChange(Player player, FileWriter fileWriter) throws IOException {
-        this.player = player;
+    /**
+     * Method used to notify a possible change.
+     * @param fileWriter used to output results
+     */
+    public void setChange(final FileWriter fileWriter) throws IOException {
         alertObservers(fileWriter);
-    }
-
-    public void setChange(GameInfo.Angel angel, FileWriter fileWriter) throws IOException {
-        this.angel = angel;
-        alertObservers(fileWriter);
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public boolean getDeath() {
-        return death;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     public GameInfo.Angel getAngel() {
         return angel;
     }
 
-    public ArrayList<Player> getPlayersLifeChange() {
-        return playersLifeChange;
+    public void setAngel(final GameInfo.Angel angel) {
+        this.angel = angel;
     }
 
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(final ArrayList<Player> players) {
+        this.players = players;
+    }
 }

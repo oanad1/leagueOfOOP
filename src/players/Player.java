@@ -1,7 +1,10 @@
 package players;
 
-import abilities.AbilityVisitor;
-import constants.UniversalConstants;
+import main.PlayersVisitor;
+import angels.AngelVisitor;
+import constants.PlayerConstants;
+
+import java.util.ArrayList;
 
 /**
  * An abstract class which provides common methods
@@ -10,8 +13,9 @@ import constants.UniversalConstants;
 public abstract class Player implements Visitable {
     private int rowPos;               //The player's row index in the map
     private int columnPos;            //The player's column index in the map
-    private int id;                   //The player's id in the initial player array
-    private int immobilized = 0;      //The number of rounds left in which the player is immobilized
+    private int id;                   //The player's id
+    private int immobilized;          //Number of immobilized rounds
+    private boolean toImobilize;      //Mark used to immobilize the player at the end of the round
     private int currentHP;            //The player's current HP
     private int currentXP;            //The player's current XP
     private int level;                //The player's current level
@@ -19,8 +23,10 @@ public abstract class Player implements Visitable {
     private int overtimeRounds = 0;   //The number of overtime rounds the player has left
     private int overtimeDamage;       //The overtime damage
     private boolean priority;         //Set to true for all players except wizard
-    private boolean dead;
-    private float angelModifier;
+    private boolean dead;             //The player's life status
+
+    private ArrayList<Float> bonusModifiers = new ArrayList<>();    //Angel and strategy modifiers
+    private PlayerMonitor playerMonitor = new PlayerMonitor(this);  //Monitors the previous state
 
     public Player(final int rowPosition, final int columnPosition, final int id) {
         this.rowPos = rowPosition;
@@ -34,10 +40,12 @@ public abstract class Player implements Visitable {
     }
 
     /**
-     * Abstract method implementing the Visitor pattern.
+     * Abstract methods implementing the Visitor pattern.
      * @param visitor the type of action applied to the player
      * **/
-    public abstract void accept(AbilityVisitor visitor);
+    public abstract void accept(PlayersVisitor visitor);
+
+    public abstract void accept(AngelVisitor visitor);
 
 
     /**
@@ -46,10 +54,10 @@ public abstract class Player implements Visitable {
      * **/
     public final void gainXP(final int opponentLevel) {
 
-        if (UniversalConstants.WINNER_XP_BASE - UniversalConstants.WINNER_XP_MULTIPLIER
+        if (PlayerConstants.WINNER_XP_BASE - PlayerConstants.WINNER_XP_MULTIPLIER
                 * (this.level - opponentLevel) > 0) {
-            this.currentXP += UniversalConstants.WINNER_XP_BASE
-                    - UniversalConstants.WINNER_XP_MULTIPLIER * (this.level - opponentLevel);
+            this.currentXP += PlayerConstants.WINNER_XP_BASE
+                    - PlayerConstants.WINNER_XP_MULTIPLIER * (this.level - opponentLevel);
         }
     }
 
@@ -126,16 +134,20 @@ public abstract class Player implements Visitable {
         return id;
     }
 
-    public final void setId(final int id) {
-        this.id = id;
-    }
-
-    public final int getImmobilized() {
+    public final int isImmobilized() {
         return immobilized;
     }
 
     public final void setImmobilized(final int immobilized) {
         this.immobilized = immobilized;
+    }
+
+    public final boolean isToImobilize() {
+        return toImobilize;
+    }
+
+    public final void setToImobilize(final boolean toImobilize) {
+        this.toImobilize = toImobilize;
     }
 
     public final int getOvertimeDamage() {
@@ -146,19 +158,52 @@ public abstract class Player implements Visitable {
         this.overtimeDamage = overtimeDamage;
     }
 
-    public float getAngelModifier() {
-        return angelModifier;
+    public final ArrayList<Float> getBonusModifiers() {
+        return bonusModifiers;
     }
 
-    public void setAngelModifier(float angelModifier) {
-        this.angelModifier = angelModifier;
+    public final void addBonusModifier(final Float bonusModifier) {
+        bonusModifiers.add(bonusModifier);
     }
 
-    public boolean isDead() {
+    public final boolean isDead() {
         return dead;
     }
 
-    public void setDead(boolean dead) {
+    public final void setDead(final boolean dead) {
         this.dead = dead;
+    }
+
+    public abstract String getType();
+
+    public final PlayerMonitor getPlayerMonitor() {
+        return playerMonitor;
+    }
+
+    /**
+     * Internal class used to capture the player's level and life status
+     * before a change takes place.
+     */
+    public final class PlayerMonitor {
+        private int level;            //Last captured level for the player
+        private boolean death;        //Last captured life status for the player
+        private Player player;
+
+       public PlayerMonitor(final Player player) {
+           this.player = player;
+       }
+
+        public void captureState() {
+            this.death = player.isDead();
+            this.level = player.getLevel();
+        }
+
+        public int getLevel() {
+            return level;
+        }
+
+        public boolean getDeath() {
+            return death;
+        }
     }
 }

@@ -58,20 +58,22 @@ public final class InputReader {
 
         int nrAngelsRound;
         String angelString;
-        ArrayList<GameInfo.Angel> angelsInRound = new ArrayList<>();
 
-        for(int i=0; i < nrRounds; i++) {
+        //Read the angel list for each round and store it in an array
+        for (int i = 0; i < nrRounds; i++) {
+            ArrayList<GameInfo.Angel> angelsInRound = new ArrayList<>();
             nrAngelsRound = fileReader.nextInt();
-            for(int j=0; j < nrAngelsRound; j++) {
+
+            for (int j = 0; j < nrAngelsRound; j++) {
 
                 angelString = fileReader.nextWord();
                 String[] angelData = angelString.split(",");
-                angelsInRound.add(new GameInfo.Angel(Integer.parseInt(angelData[1]), Integer.parseInt(angelData[2]),
-                        AngelsFactory.getAngel(angelData[0])));
+                angelsInRound.add(new GameInfo.Angel(Integer.parseInt(angelData[1]),
+                        Integer.parseInt(angelData[2]), AngelsFactory.getAngel(angelData[0]),
+                        angelData[0]));
 
             }
-            gameInfo.addAngelsRound(i,angelsInRound);
-            angelsInRound.clear();
+            gameInfo.addAngelsRound(i, angelsInRound);
         }
 
         fileReader.close();

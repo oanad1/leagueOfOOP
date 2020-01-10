@@ -1,16 +1,17 @@
 package players;
 
-import abilities.PlayerVisitor;
-import constants.UniversalConstants;
+import main.PlayersVisitor;
+import angels.AngelVisitor;
+import constants.PlayerConstants;
 import constants.WizardConstants;
 
 /**
- * An implementation of a Wizard player, extension of a Player class.
+ * Wizard player, extension of a Player class.
  */
-public class Wizard extends Player implements Visitable {
+public final class Wizard extends Player implements Visitable {
 
     private int unmodifiedDamage;           //Total round damage without race modifiers
-
+    private String type = "Wizard";
 
     public Wizard(final int rowPos, final int columnPos, final int id) {
         super(rowPos, columnPos, id);
@@ -19,15 +20,25 @@ public class Wizard extends Player implements Visitable {
     }
 
 
-    public final void accept(final PlayerVisitor visitor) {
+    public void accept(final PlayersVisitor visitor) {
         visitor.visit(this);
     }
 
+    public void accept(final AngelVisitor visitor) {
+        visitor.visit(this);
+    }
 
-    public final void checkLevelUp() {
+    /**
+     * Method used by the wizard to level up.
+     */
+    public void checkLevelUp() {
 
-        int newLevel = (this.getCurrentXP() - UniversalConstants.LEVEL_UP_BASE)
-                / UniversalConstants.LEVEL_UP_MULTIPLIER + 1;
+        int newLevel = (this.getCurrentXP() - PlayerConstants.LEVEL_UP_BASE)
+                / PlayerConstants.LEVEL_UP_MULTIPLIER + 1;
+
+        if (this.getCurrentXP() < PlayerConstants.LEVEL_UP_BASE) {
+            newLevel = 0;
+        }
 
         if (newLevel > this.getLevel()) {
             this.setCurrentHP(WizardConstants.BASE_HP + newLevel * WizardConstants.LEVEL_HP);
@@ -36,12 +47,20 @@ public class Wizard extends Player implements Visitable {
     }
 
 
-    public final int getUnmodifiedDamage() {
+    public int getUnmodifiedDamage() {
         return unmodifiedDamage;
     }
 
-    public final void setUnmodifiedDamage(final int unmodifiedDamage) {
+    public void setUnmodifiedDamage(final int unmodifiedDamage) {
         this.unmodifiedDamage = unmodifiedDamage;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(final String type) {
+        this.type = type;
     }
 }
 

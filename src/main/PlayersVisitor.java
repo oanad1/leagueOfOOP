@@ -1,4 +1,4 @@
-package abilities;
+package main;
 
 import players.Knight;
 import players.Pyromancer;
@@ -9,7 +9,7 @@ import players.Wizard;
  * Interface used for implementing a Visitor Pattern with 4 Visitable types:
  * Pyromancer, Rogue, Wizard and Knight.
  */
-public interface PlayerVisitor {
+public interface PlayersVisitor {
     void visit(Pyromancer pyromancer);
 
     void visit(Rogue rogue);

@@ -10,7 +10,7 @@ import players.Knight;
 import players.Wizard;
 
 /**
- * Paralysis ability specific to the Rogue players.
+ * Paralysis ability specific to Rogue players.
  * Singleton class implementing the PlayerVisitor interface.
  */
 public final class Paralysis implements PlayersVisitor {
@@ -30,8 +30,7 @@ public final class Paralysis implements PlayersVisitor {
      * @param pyromancer victim
      */
     public void visit(final Pyromancer pyromancer) {
-        float raceModifier = RogueConstants.PARALYSIS_MOD_P
-                + battlefield.getOpponent(pyromancer).getAngelModifier();
+        Float raceModifier = RogueConstants.PARALYSIS_MOD_P;
         calculateTotalDamage(pyromancer, raceModifier);
     }
 
@@ -40,8 +39,7 @@ public final class Paralysis implements PlayersVisitor {
      * @param rogue victim
      */
     public void visit(final Rogue rogue) {
-        float raceModifier = RogueConstants.PARALYSIS_MOD_R
-                + battlefield.getOpponent(rogue).getAngelModifier();
+        Float raceModifier = RogueConstants.PARALYSIS_MOD_R;
         calculateTotalDamage(rogue, raceModifier);
     }
 
@@ -51,11 +49,10 @@ public final class Paralysis implements PlayersVisitor {
      * @param wizard victim
      */
     public void visit(final Wizard wizard) {
-        float unmodDamage = calculateRawDamage(wizard);
+        Float unmodDamage = calculateRawDamage(wizard);
         wizard.setUnmodifiedDamage(wizard.getUnmodifiedDamage() + Math.round(unmodDamage));
 
-        float raceModifier = RogueConstants.PARALYSIS_MOD_W
-                + battlefield.getOpponent(wizard).getAngelModifier();
+        Float raceModifier = RogueConstants.PARALYSIS_MOD_W;
         calculateTotalDamage(wizard, raceModifier);
     }
 
@@ -64,34 +61,51 @@ public final class Paralysis implements PlayersVisitor {
      * @param knight victim
      */
     public void visit(final Knight knight) {
-        float raceModifier = RogueConstants.PARALYSIS_MOD_K
-                + battlefield.getOpponent(knight).getAngelModifier();
+        Float raceModifier = RogueConstants.PARALYSIS_MOD_K;
         calculateTotalDamage(knight, raceModifier);
     }
 
     /**
-     * Calculates the total damage and sets overtime and immobilized rounds.
+     * Calculates damage wihout race modifiers.
+     * Sets the number of overtime and immobilized rounds.
      * @param victim player who is attacked
      * @return total damage without race modifiers
      */
-    public float calculateRawDamage(final Player victim) {
+    public Float calculateRawDamage(final Player victim) {
         Rogue assailant = (Rogue) battlefield.getOpponent(victim);
 
-        float damage = RogueConstants.PARALYSIS_BASE_DAMAGE
-                + RogueConstants.PARALYSIS_LEVEL_DAMAGE * assailant.getLevel();
+        Float damage = (float) (RogueConstants.PARALYSIS_BASE_DAMAGE
+                + RogueConstants.PARALYSIS_LEVEL_DAMAGE * assailant.getLevel());
 
         if (battlefield.getPlayerLot(assailant).getLandType() == RogueConstants.LAND_TYPE) {
+
             damage *= RogueConstants.LAND_TYPE_BONUS;
             victim.setImmobilized(RogueConstants.PARALYSIS_OVERTIME_WOODS + 1);
             victim.setOvertimeRounds(RogueConstants.PARALYSIS_OVERTIME_WOODS);
+
         } else {
+
             victim.setImmobilized(RogueConstants.PARALYSIS_OVERTIME + 1);
             victim.setOvertimeRounds(RogueConstants.PARALYSIS_OVERTIME);
+
         }
         return damage;
     }
 
-    public void calculateTotalDamage(final Player victim, final float raceModifier) {
+    /**
+     * Sets the total damage.
+     * @param victim player who is attacked
+     * @param raceMod race modifier specific to the victim
+     * @return total damage with race modifiers
+     */
+    public void calculateTotalDamage(final Player victim, final Float raceMod) {
+
+        Float raceModifier = raceMod;
+
+        for (Float bonusMod: battlefield.getOpponent(victim).getBonusModifiers()) {
+            raceModifier += bonusMod;
+        }
+
         int damage = Math.round(calculateRawDamage(victim) * raceModifier);
         victim.setOvertimeDamage(damage);
         damage += victim.getRoundDamage();
